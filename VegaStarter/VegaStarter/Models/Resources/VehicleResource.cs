@@ -21,7 +21,7 @@ namespace VegaStarter.Models.Resources
 
         public VehicleResource()
         {
-            Features=new Collection<int>()
+            Features = new Collection<int>();
         }
     }
  

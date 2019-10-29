@@ -1,15 +1,13 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using VegaStarter.Mapper;
+using Microsoft.Extensions.Hosting;
 using VegaStarter.Mapping;
 using VegaStarter.Persistence;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
+
 
 namespace VegaStarter
 {
@@ -36,13 +34,13 @@ namespace VegaStarter
             services.AddSingleton(MapperConfig.CreateMapper());
 
             services.AddDbContext<VegaDbContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(option=>option.EnableEndpointRouting=false);
 
-            // In production, the Angular files will be served from this directory
+           
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
@@ -50,15 +48,12 @@ namespace VegaStarter
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseWebpackDevMiddleware(new Microsoft.AspNetCore.SpaServices.Webpack.WebpackDevMiddlewareOptions
-                //{
-                //    HotModuleReplacement = true
-                //});
+               
             }
             else
             {
@@ -71,18 +66,11 @@ namespace VegaStarter
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-
-
-            });
+            app.UseMvc();
 
             app.UseSpa(spa =>
             {
-              
+
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
