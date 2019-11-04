@@ -14,7 +14,7 @@ namespace VegaStarter.Models.Resources
         public int ModelId { get; set; }
 
         public bool IsRegitered { get; set; }
-
+        [Required]
         public ContactResource Contact { get; set; }
 
         public ICollection<int> Features { get;}

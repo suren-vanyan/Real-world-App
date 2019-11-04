@@ -9,8 +9,7 @@ using VegaStarter.Persistence;
 
 namespace VegaStarter.Controllers
 {
-    [Route("api/[controller]")]
-    public class FeaturesController
+    public class FeaturesController:BaseController
     {
         private readonly IMapper mapper;
         private readonly VegaDbContext context;

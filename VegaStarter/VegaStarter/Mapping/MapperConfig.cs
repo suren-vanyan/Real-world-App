@@ -8,7 +8,7 @@ using VegaStarter.Models.Resources;
 
 namespace VegaStarter.Mapping
 {
-    public class MapperConfig
+    public static class MapperConfig
     {
         public static IMapper CreateMapper()
         {
@@ -19,9 +19,11 @@ namespace VegaStarter.Mapping
                   conf.CreateMap<Model, ModelResource>();
                   conf.CreateMap<Model, ModelResource>().ReverseMap();
                   conf.CreateMap<Feature, FeatureResource>().ReverseMap();
+                  conf.CreateMap<Vehicle, VehicleResource>()
+                  .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => new ContactResource { Email = v.ContactEmail, Name = v.ContactName, Phone = v.ContactPhone }))
+                  .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.VehicleFeatures.Select(vf => vf.FeatureId)));
 
                   //From Api Resource To Domain
-
                   conf.CreateMap<VehicleResource, Vehicle>()
                   .ForMember(v => v.ContactEmail, opt => opt.MapFrom(vr => vr.Contact.Email))
                   .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.Contact.Name))
