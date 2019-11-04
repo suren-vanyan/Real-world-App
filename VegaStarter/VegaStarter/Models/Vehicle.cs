@@ -28,7 +28,7 @@ namespace VegaStarter.Models
         [StringLength(255)]
         public string ContactPhone { get; set; }
         public DateTime LastUpdate { get; set; }
-        public ICollection<VehicleFeature> VehicleFeatures { get; set; }
+        public ICollection<VehicleFeature> VehicleFeatures { get;}
 
         public Vehicle()
         {

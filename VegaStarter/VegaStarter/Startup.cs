@@ -41,9 +41,28 @@ namespace VegaStarter
             services.AddMvc(option=>option.EnableEndpointRouting=false);
 
            
+
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
+            });
+
+            services.AddSwaggerDocument(config =>
+            {
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "ToDo API";
+                    document.Info.Description = "Real-World ASP.NET Core web API";
+                    document.Info.TermsOfService = "None";
+                    document.Info.Contact = new NSwag.OpenApiContact
+                    {
+                        Name = "Suren-Vanyan",
+                        Email = "surenvanyan@gmail.com",
+                        Url = ""
+                    };
+                    
+                };
             });
         }
 
@@ -65,6 +84,9 @@ namespace VegaStarter
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseMvc();
 

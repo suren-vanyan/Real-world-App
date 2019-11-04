@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using VegaStarter.Models;
+using VegaStarter.Models.Resources;
 using VegaStarter.Persistence;
 
 namespace VegaStarter.Controllers
@@ -21,7 +22,7 @@ namespace VegaStarter.Controllers
             this.dbContext = dbContext;
         }
         [HttpPost("create")]
-        public IActionResult CreateVehicle([FromBody]Vehicle vehicle)
+        public IActionResult CreateVehicle([FromBody]VehicleResource vehicle)
         {
             return Ok(vehicle);
         } 
