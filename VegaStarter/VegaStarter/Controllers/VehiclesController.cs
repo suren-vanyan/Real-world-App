@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VegaStarter.Models;
 using VegaStarter.Models.Resources;
 using VegaStarter.Persistence;
@@ -48,7 +49,11 @@ namespace VegaStarter.Controllers
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody]VehicleResource vehicleResource)
         {
             //Find Vehicle
-            var vehicle = await dbContext.Vehicles.FindAsync(id);
+            var vehicle = await dbContext.Vehicles.Include(v=>v.VehicleFeatures).SingleOrDefaultAsync(v=>v.Id==id).ConfigureAwait(false);
+
+            if (vehicle == null)
+                return new NotFoundResult();
+            
             mapper.Map(vehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 

@@ -17,7 +17,7 @@ namespace VegaStarter.Models.Resources
         [Required]
         public ContactResource Contact { get; set; }
 
-        public ICollection<int> Features { get;}
+        public ICollection<int> Features { get; set; }
 
         public VehicleResource()
         {
