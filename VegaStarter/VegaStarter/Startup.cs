@@ -7,7 +7,8 @@ using Microsoft.Extensions.Hosting;
 using VegaStarter.Mapping;
 using VegaStarter.Persistence;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-
+using AutoMapper;
+using VegaStarter.Mapping.Profiles;
 
 namespace VegaStarter
 {
@@ -24,23 +25,24 @@ namespace VegaStarter
         public void ConfigureServices(IServiceCollection services)
         {
 
-            //var mappingConfig = new MapperConfiguration(mc =>
-            //{
-            //    mc.AddProfile(new MappingProfile());
-            //});
-            //IMapper mapper = mappingConfig.CreateMapper();
-            //services.AddSingleton(mapper);
 
-            services.AddSingleton(MapperConfig.CreateMapper());
+            services.AddAutoMapper(config =>
+            {
+                config.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
+                config.AddProfile(typeof(MakeProfile));
+                config.AddProfile(typeof(ModelProfile));
+            }, typeof(VehicleProfile)).AddSingleton(typeof(IMapperConfigurationExpression), typeof(MapperConfiguration));
+
+            //services.AddSingleton(MapperConfig.CreateMapper());
 
             services.AddDbContext<VegaDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 
 
-            services.AddMvc(option=>option.EnableEndpointRouting=false);
+            services.AddMvc(option => option.EnableEndpointRouting = false);
 
-           
+
 
             services.AddSpaStaticFiles(configuration =>
             {
@@ -61,7 +63,7 @@ namespace VegaStarter
                         Email = "surenvanyan@gmail.com",
                         Url = ""
                     };
-                    
+
                 };
             });
         }
@@ -72,7 +74,7 @@ namespace VegaStarter
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-               
+
             }
             else
             {

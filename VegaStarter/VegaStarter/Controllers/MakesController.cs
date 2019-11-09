@@ -26,7 +26,10 @@ namespace VegaStarter.Controllers
         public async Task<IEnumerable<MakeResource>> GetMakes()
         {
            var makes= await context.Makes.Include(m => m.Models).ToListAsync().ConfigureAwait(false);
-            return mapper.Map<List<Make>,List<MakeResource>>(makes);
+            var mr=mapper.Map<List<Make>,List<MakeResource>>(makes);
+
+           var m= mapper.Map<List<MakeResource>, List<Make>>(mr);
+            return mr;
         }
     }
 }
