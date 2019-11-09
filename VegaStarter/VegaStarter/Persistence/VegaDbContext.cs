@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using VegaStarter.Models;
+using VegaStarter.Persistence.EntityConfiguratons;
 
 namespace VegaStarter.Persistence
 {
-    public class VegaDbContext:DbContext
+    public class VegaDbContext : DbContext
     {
-        public VegaDbContext(DbContextOptions options):base(options)
+        public VegaDbContext(DbContextOptions options) : base(options)
         {
 
         }
@@ -16,7 +17,8 @@ namespace VegaStarter.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<VehicleFeature>().HasKey(v => new { v.FeatureId, v.VehicleId });
+            modelBuilder.ApplyConfiguration<Feature>(new FeatureConfig());
+            modelBuilder.ApplyConfiguration<VehicleFeature>(new VehicleFeatureConfig());
         }
     }
 }

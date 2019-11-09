@@ -9,8 +9,7 @@ namespace VegaStarter.Models
 {
     [Table("VehicleFeatures")]
     public class VehicleFeature
-    {
-            
+    {          
         public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
     

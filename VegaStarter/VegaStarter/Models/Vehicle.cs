@@ -19,13 +19,13 @@ namespace VegaStarter.Models
 
         public bool IsRegitered { get; set; }
         [Required]
-        [StringLength(255)]
+        [StringLength(255, ErrorMessage = "ContactName can't be longer than 255 characters")]
         public string ContactName { get; set; }
       
-        [StringLength(255)]
+        [StringLength(255, ErrorMessage = "ContactEmail can't be longer than 255 characters")]
         public string ContactEmail { get; set; }
         [Required]
-        [StringLength(255)]
+        [StringLength(255, ErrorMessage = "ContactPhone can't be longer than 255 characters")]
         public string ContactPhone { get; set; }
         public DateTime LastUpdate { get; set; }
         public ICollection<VehicleFeature> VehicleFeatures { get;}

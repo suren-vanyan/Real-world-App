@@ -12,7 +12,7 @@ namespace VegaStarter.Models
 
         public int Id { get; set; }
         [Required]
-        [StringLength(200)]
+        [StringLength(200, ErrorMessage = "Name can't be longer than 200 characters")]
         public string Name { get; set; }
         public ICollection<Model> Models { get; set; }
 
