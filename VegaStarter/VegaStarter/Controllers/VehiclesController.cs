@@ -59,7 +59,7 @@ namespace VegaStarter.Controllers
             var vehicle = await dbContext.Vehicles.Include(v => v.VehicleFeatures).SingleOrDefaultAsync(v => v.Id == id).ConfigureAwait(false);
 
             if (vehicle == null)
-                return new NotFoundResult();
+                return new NotFoundObjectResult(vehicleResource);
 
             mapper.Map(vehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
@@ -68,7 +68,32 @@ namespace VegaStarter.Controllers
             var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
             return Ok(result);
         }
-        #endregion
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteVehicle(int id)
+        {
+            var vehicle = await dbContext.Vehicles.FindAsync(id).ConfigureAwait(false);
+
+            if (vehicle == null)
+                return new NotFoundObjectResult(id);
+
+            dbContext.Remove<Vehicle>(vehicle);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+
+            return Ok(id);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetVehicle(int id)
+        {
+            var vehicle = await dbContext.Vehicles.Include(v => v.VehicleFeatures).SingleOrDefaultAsync(v => v.Id == id).ConfigureAwait(false);
+
+            if (vehicle == null)
+                return new NotFoundObjectResult(id);
+
+            return Ok(vehicle);
+        }
+
+        #endregion
     }
 }
