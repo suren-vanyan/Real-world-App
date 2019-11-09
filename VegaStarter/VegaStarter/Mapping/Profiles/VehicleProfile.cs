@@ -36,9 +36,10 @@ namespace VegaStarter.Mapping.Profiles
 
 
                 //Adding new Features
-                var addingFeatureIds = vehicleResource.Features.Where(vr => !vehicle.VehicleFeatures.Any(v => v.FeatureId == vr));
-                foreach (var addingFeatureId in addingFeatureIds)
-                    vehicle.VehicleFeatures.Add(new VehicleFeature { FeatureId = addingFeatureId });
+                var addingFeatures = vehicleResource.Features.Where(vr => !vehicle.VehicleFeatures.Any(v => v.FeatureId == vr))
+                .Select(id => new VehicleFeature { FeatureId = id });
+                foreach (var addingFeature in addingFeatures)
+                    vehicle.VehicleFeatures.Add(addingFeature);
 
 
             });

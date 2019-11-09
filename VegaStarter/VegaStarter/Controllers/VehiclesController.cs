@@ -13,17 +13,24 @@ namespace VegaStarter.Controllers
 {
     public class VehiclesController : BaseController
     {
+
+        #region Fields
         private readonly IMapper mapper;
         private readonly VegaDbContext dbContext;
+        #endregion
 
+        #region Constructor
         public VehiclesController(IMapper mapper, VegaDbContext dbContext)
         {
             this.mapper = mapper;
             this.dbContext = dbContext;
         }
+        #endregion
 
+
+        #region Actions
         /// <summary>
-        /// Create New Vehicle
+        /// Create new vehicle
         /// </summary>
         /// <param name="vehicleResource"></param>
         /// <returns>VehicleResource</returns>
@@ -49,11 +56,11 @@ namespace VegaStarter.Controllers
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody]VehicleResource vehicleResource)
         {
             //Find Vehicle
-            var vehicle = await dbContext.Vehicles.Include(v=>v.VehicleFeatures).SingleOrDefaultAsync(v=>v.Id==id).ConfigureAwait(false);
+            var vehicle = await dbContext.Vehicles.Include(v => v.VehicleFeatures).SingleOrDefaultAsync(v => v.Id == id).ConfigureAwait(false);
 
             if (vehicle == null)
                 return new NotFoundResult();
-            
+
             mapper.Map(vehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 
@@ -61,5 +68,7 @@ namespace VegaStarter.Controllers
             var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
             return Ok(result);
         }
+        #endregion
+
     }
 }

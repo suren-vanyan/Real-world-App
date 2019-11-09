@@ -9,22 +9,35 @@ using VegaStarter.Persistence;
 
 namespace VegaStarter.Controllers
 {
-    public class FeaturesController:BaseController
+    public class FeaturesController : BaseController
     {
+        #region Fileds      
         private readonly IMapper mapper;
         private readonly VegaDbContext context;
+        #endregion
 
-        public FeaturesController(IMapper mapper,VegaDbContext context)
+        #region Constructor
+        public FeaturesController(IMapper mapper, VegaDbContext context)
         {
             this.mapper = mapper;
             this.context = context;
         }
+        #endregion
 
+        #region Actions
+        /// <summary>
+        /// get all features
+        /// </summary>
+        /// <returns>IEnumerable<FeatureResource></returns>
         [HttpGet("all-features")]
-        public async Task<IEnumerable<FeatureResource>> GetFeatures(){
-            var features= await context.Features.ToListAsync().ConfigureAwait(false);
-           var featureResource= mapper.Map<List<Feature>,List<FeatureResource>>(features);
+        public async Task<IEnumerable<FeatureResource>> GetFeatures()
+        {
+            var features = await context.Features.ToListAsync().ConfigureAwait(false);
+            var featureResource = mapper.Map<List<Feature>, List<FeatureResource>>(features);
             return featureResource;
         }
+        #endregion
+
+
     }
 }
