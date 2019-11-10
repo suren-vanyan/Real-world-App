@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VegaStarter.Models;
+using VegaStarter.Models.Resources;
 
 namespace VegaStarter.Mapping.Profiles
 {
@@ -11,7 +12,7 @@ namespace VegaStarter.Mapping.Profiles
     {
         public ModelProfile()
         {
-            var mapper = CreateMap<Model, ModelResource>().ReverseMap();
+            var mapper = CreateMap<Model, KeyValuePairResource>().ReverseMap();
 
         }
     }

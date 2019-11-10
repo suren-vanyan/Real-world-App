@@ -4,17 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VegaStarter.Models;
+using VegaStarter.Models.Resources;
 
 namespace VegaStarter.Mapping.Profiles
 {
-    public class MakeProfile:Profile
+    public class MakeProfile : Profile
     {
         public MakeProfile()
         {
-           var mapper= CreateMap<Make, MakeResource>().ReverseMap();
-           
-            
+            CreateMap<Make, KeyValuePairResource>().ReverseMap();
         }
-       
+
     }
 }

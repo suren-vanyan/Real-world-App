@@ -4,19 +4,19 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using VegaStarter.Models.Resources;
 
 namespace VegaStarter.Models
 {
-    public class MakeResource
+    public class MakeResource:KeyValuePairResource
     {
-        public int Id { get; set; }
-       
-        public string Name { get; set; }
-        public ICollection<ModelResource> Models { get; set; }
 
+        public ICollection<KeyValuePairResource> Models { get; set; }
+        public IEnumerable<KeyValuePairResource> MyProperty { get; set; }
         public MakeResource()
         {
-            Models = new Collection<ModelResource>();
+            Models = new Collection<KeyValuePairResource>();
+            MyProperty= new Collection<KeyValuePairResource>();
         }
     }
 }

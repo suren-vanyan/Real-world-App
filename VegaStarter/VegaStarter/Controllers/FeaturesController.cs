@@ -30,10 +30,10 @@ namespace VegaStarter.Controllers
         /// </summary>
         /// <returns>IEnumerable<FeatureResource></returns>
         [HttpGet("all-features")]
-        public async Task<IEnumerable<FeatureResource>> GetFeatures()
+        public async Task<IEnumerable<KeyValuePairResource>> GetFeatures()
         {
             var features = await context.Features.ToListAsync().ConfigureAwait(false);
-            var featureResource = mapper.Map<List<Feature>, List<FeatureResource>>(features);
+            var featureResource = mapper.Map<List<Feature>, List<KeyValuePairResource>>(features);
             return featureResource;
         }
         #endregion

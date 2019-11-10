@@ -12,12 +12,19 @@ namespace VegaStarter.Mapping.Profiles
     {
         public VehicleProfile()
         {
-            CreateMap<Vehicle, VehicleResource>()
+            //From Domain To API  Resource 
+            CreateMap<Vehicle, SaveVehicleResource>()
                  .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => new ContactResource { Email = v.ContactEmail, Name = v.ContactName, Phone = v.ContactPhone }))
                  .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.VehicleFeatures.Select(vf => vf.FeatureId)));
 
+            //Get Action From Domain To API  Resource 
+            CreateMap<Vehicle, VehicleResource>()
+                .ForMember(vr=>vr.Make,opt=>opt.MapFrom(v=>v.Model.Make))
+                .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => new ContactResource {Name=v.ContactName,Email=v.ContactEmail,Phone=v.ContactPhone }))
+                  .ForMember(vr=>vr.FeatureResources,opt=>opt.MapFrom(v=>v.VehicleFeatures.Select(vf=>new KeyValuePairResource {Id=vf.Feature.Id,Name=vf.Feature.Name })));
+
             //From Api Resource To Domain
-            CreateMap<VehicleResource, Vehicle>()
+            CreateMap<SaveVehicleResource, Vehicle>()
             .ForMember(v => v.Id, vr => vr.Ignore())
             .ForMember(v => v.ContactEmail, opt => opt.MapFrom(vr => vr.Contact.Email))
             .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.Contact.Name))

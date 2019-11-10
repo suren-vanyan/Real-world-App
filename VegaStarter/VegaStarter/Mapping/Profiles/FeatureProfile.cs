@@ -12,7 +12,7 @@ namespace VegaStarter.Mapping.Profiles
     {
         public FeatureProfile()
         {
-            CreateMap<Feature, FeatureResource>().ReverseMap();
+            CreateMap<Feature, KeyValuePairResource>().ReverseMap();
         }
     }
 }
