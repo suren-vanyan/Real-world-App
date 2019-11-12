@@ -9,6 +9,8 @@ using VegaStarter.Persistence;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using AutoMapper;
 using VegaStarter.Mapping.Profiles;
+using VegaStarter.Persistence.Interfaces;
+using VegaStarter.Persistence.Repositories;
 
 namespace VegaStarter
 {
@@ -25,7 +27,8 @@ namespace VegaStarter
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper(config =>
             {

@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using VegaStarter.Models;
 using VegaStarter.Models.Resources;
 using VegaStarter.Persistence;
+using VegaStarter.Persistence.Interfaces;
 
 namespace VegaStarter.Controllers
 {
@@ -18,20 +19,44 @@ namespace VegaStarter.Controllers
 
         #region Fields
         private readonly IMapper mapper;
-        private readonly VegaDbContext dbContext;
+        private readonly IVehicleRepository vehicleRepository;
+        private readonly IUnitOfWork unitOfWork;
         #endregion
 
         #region Constructor
-        public VehiclesController(IMapper mapper, VegaDbContext dbContext)
+        public VehiclesController(IMapper mapper,IVehicleRepository vehicleRepository,
+            IUnitOfWork unitOfWork)
         {
             this.mapper = mapper;
-            this.dbContext = dbContext;
-
+            this.vehicleRepository = vehicleRepository;
+            this.unitOfWork = unitOfWork;
         }
         #endregion
 
 
         #region Actions
+        /// <summary>
+        /// get vehicle by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetVehicle(int id)
+        {
+            SqlParameter sqlParameter = new SqlParameter("id", id);
+            //var vehicle=  dbContext.Vehicles.FromSqlRaw<Vehicle>(@"SELECT * FROM (SELECT * FROM [Vehicles] WHERE [Vehicles].id=@id and @id IS NOT NULL) as [v] " +
+            //      @"LEFT JOIN VehicleFeatures as [vf] ON [vf].VehicleId=[v].id ORDER BY [v].[Id], [vf].[FeatureId], [vf].[VehicleId]", sqlParameter);
+
+            var vehicle =await vehicleRepository.GetVehicle(id).ConfigureAwait(false);
+
+            if (vehicle == null)
+                return new NotFoundObjectResult(id);
+
+            var vehicleResource = mapper.Map<Vehicle, VehicleResource>(vehicle);
+
+            return Ok(vehicleResource);
+        }
+
         /// <summary>
         /// Create new vehicle
         /// </summary>
@@ -43,9 +68,13 @@ namespace VegaStarter.Controllers
 
             var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
             vehicle.LastUpdate = DateTime.Now;
-            dbContext.Set<Vehicle>().Add(vehicle);
-            int x = await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            var result = mapper.Map<Vehicle, SaveVehicleResource>(vehicle);
+
+              vehicleRepository.Add(vehicle);
+           await unitOfWork.CompleteAsync().ConfigureAwait(false);
+
+            vehicle =await vehicleRepository.GetVehicle(vehicle.Id).ConfigureAwait(false);
+
+            var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
             return Ok(result);
         }
 
@@ -56,55 +85,39 @@ namespace VegaStarter.Controllers
         /// <param name="vehicleResource"></param>
         /// <returns>VehicleResource</returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVehicle(int id, [FromBody]SaveVehicleResource vehicleResource)
+        public async Task<IActionResult> UpdateVehicle(int id, [FromBody]SaveVehicleResource vehicleInputModel)
         {
             //Find Vehicle
-            var vehicle = await dbContext.Vehicles.Include(v => v.VehicleFeatures).SingleOrDefaultAsync(v => v.Id == id).ConfigureAwait(false);
+            var vehicle = await vehicleRepository.GetVehicle(id).ConfigureAwait(false);
 
             if (vehicle == null)
-                return new NotFoundObjectResult(vehicleResource);
+                return new NotFoundObjectResult(vehicleInputModel);
 
-            mapper.Map(vehicleResource, vehicle);
+            mapper.Map(vehicleInputModel, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            var result = mapper.Map<Vehicle, SaveVehicleResource>(vehicle);
+            await unitOfWork.CompleteAsync().ConfigureAwait(false);
+            var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
             return Ok(result);
         }
 
+        /// <summary>
+        /// remowe vehicle
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
-            var vehicle = await dbContext.Vehicles.FindAsync(id).ConfigureAwait(false);
+            var vehicle = await vehicleRepository.GetVehicle(id, false).ConfigureAwait(false);
 
             if (vehicle == null)
                 return new NotFoundObjectResult(id);
 
-            dbContext.Remove<Vehicle>(vehicle);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            vehicleRepository.Remove(vehicle);
+            await unitOfWork.CompleteAsync().ConfigureAwait(false);
 
             return Ok(id);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetVehicle(int id)
-        {
-            SqlParameter sqlParameter = new SqlParameter("id", id);
-          //var vehicle=  dbContext.Vehicles.FromSqlRaw<Vehicle>(@"SELECT * FROM (SELECT * FROM [Vehicles] WHERE [Vehicles].id=@id and @id IS NOT NULL) as [v] " +
-          //      @"LEFT JOIN VehicleFeatures as [vf] ON [vf].VehicleId=[v].id ORDER BY [v].[Id], [vf].[FeatureId], [vf].[VehicleId]", sqlParameter);
-          
-            var vehicle = await dbContext.Vehicles
-                .Include(v=>v.Model)
-                .ThenInclude(m=>m.Make)
-                .Include(v => v.VehicleFeatures)
-                .ThenInclude(vf=>vf.Feature)
-                .SingleOrDefaultAsync(v => v.Id == id).ConfigureAwait(false);
-
-            if (vehicle == null)
-                return new NotFoundObjectResult(id);
-            var vehicleResource = mapper.Map<Vehicle, VehicleResource>(vehicle);
-          
-            return Ok(vehicleResource);
         }
 
         #endregion
