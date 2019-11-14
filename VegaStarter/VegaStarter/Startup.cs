@@ -26,6 +26,17 @@ namespace VegaStarter
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("MyAllowSpecificOrigins",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200");
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
+                });
+            });
+
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -45,7 +56,7 @@ namespace VegaStarter
 
             services.AddMvc(option => option.EnableEndpointRouting = false);
 
-
+            services.AddCors();
 
             services.AddSpaStaticFiles(configuration =>
             {
@@ -74,7 +85,10 @@ namespace VegaStarter
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public static void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
-             app.MigratDatabase();
+
+            app.UseCors("MyAllowSpecificOrigins");
+
+            app.MigratDatabase();
 
             if (env.IsDevelopment())
             {
@@ -88,23 +102,25 @@ namespace VegaStarter
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
             app.UseOpenApi();
             app.UseSwaggerUi3();
 
+            
             app.UseMvc();
 
+         
             app.UseSpa(spa =>
             {
-
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                    // spa.UseAngularCliServer(npmScript: "start");
                 }
             });
         }

@@ -1,5 +1,5 @@
 import { Http } from '@angular/http';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 
@@ -15,13 +15,15 @@ export class VehicleService {
   constructor(private httpClient: HttpClient) { }
 
   getMakes() {
-    var makes= this.httpClient.get(this.makesUrl) ;
-    console.log(makes)
-    return makes
+    var makes= this.httpClient.get(this.makesUrl);
+    console.log(makes);
+    return makes;
   }
 
   getFeatures() {
-    return this.httpClient.get('http://localhost:5000/api/features/all-features');
+   var features=this.httpClient.get('http://localhost:5000/api/features/all-features');
+   console.log(features);
+   return features;
    }
 
 
