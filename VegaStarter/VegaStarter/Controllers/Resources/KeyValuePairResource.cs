@@ -1,4 +1,4 @@
-namespace VegaStarter.Models.Resources
+namespace VegaStarter.Controllers.Resources
 {
     public class KeyValuePairResource
     {

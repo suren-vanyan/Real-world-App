@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using VegaStarter.Controllers.Resources;
 using VegaStarter.Models;
-using VegaStarter.Models.Resources;
 using VegaStarter.Persistence;
 
 namespace VegaStarter.Controllers

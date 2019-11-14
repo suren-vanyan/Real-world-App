@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using VegaStarter.Controllers.Resources;
+using VegaStarter.Core.Interfaces;
 using VegaStarter.Models;
-using VegaStarter.Models.Resources;
-using VegaStarter.Persistence;
-using VegaStarter.Persistence.Interfaces;
+
 
 namespace VegaStarter.Controllers
 {
@@ -24,7 +20,7 @@ namespace VegaStarter.Controllers
         #endregion
 
         #region Constructor
-        public VehiclesController(IMapper mapper,IVehicleRepository vehicleRepository,
+        public VehiclesController(IMapper mapper, IVehicleRepository vehicleRepository,
             IUnitOfWork unitOfWork)
         {
             this.mapper = mapper;
@@ -47,7 +43,7 @@ namespace VegaStarter.Controllers
             //var vehicle=  dbContext.Vehicles.FromSqlRaw<Vehicle>(@"SELECT * FROM (SELECT * FROM [Vehicles] WHERE [Vehicles].id=@id and @id IS NOT NULL) as [v] " +
             //      @"LEFT JOIN VehicleFeatures as [vf] ON [vf].VehicleId=[v].id ORDER BY [v].[Id], [vf].[FeatureId], [vf].[VehicleId]", sqlParameter);
 
-            var vehicle =await vehicleRepository.GetVehicle(id).ConfigureAwait(false);
+            var vehicle = await vehicleRepository.GetVehicle(id).ConfigureAwait(false);
 
             if (vehicle == null)
                 return new NotFoundObjectResult(id);
@@ -69,10 +65,10 @@ namespace VegaStarter.Controllers
             var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
             vehicle.LastUpdate = DateTime.Now;
 
-              vehicleRepository.Add(vehicle);
-           await unitOfWork.CompleteAsync().ConfigureAwait(false);
+            vehicleRepository.Add(vehicle);
+            await unitOfWork.CompleteAsync().ConfigureAwait(false);
 
-            vehicle =await vehicleRepository.GetVehicle(vehicle.Id).ConfigureAwait(false);
+            vehicle = await vehicleRepository.GetVehicle(vehicle.Id).ConfigureAwait(false);
 
             var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
             return Ok(result);

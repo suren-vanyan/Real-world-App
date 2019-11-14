@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using VegaStarter.Persistence.Interfaces;
+﻿using System.Threading.Tasks;
+using VegaStarter.Core.Interfaces;
 
 namespace VegaStarter.Persistence
 {

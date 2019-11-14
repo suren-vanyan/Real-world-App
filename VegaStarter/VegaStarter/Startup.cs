@@ -4,13 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VegaStarter.Mapping;
 using VegaStarter.Persistence;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using AutoMapper;
 using VegaStarter.Mapping.Profiles;
-using VegaStarter.Persistence.Interfaces;
 using VegaStarter.Persistence.Repositories;
+using VegaStarter.Core.Interfaces;
 
 namespace VegaStarter
 {

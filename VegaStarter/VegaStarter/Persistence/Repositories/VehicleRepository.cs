@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VegaStarter.Core.Interfaces;
 using VegaStarter.Models;
-using VegaStarter.Persistence.Interfaces;
+
 
 namespace VegaStarter.Persistence.Repositories
 {
@@ -23,14 +24,14 @@ namespace VegaStarter.Persistence.Repositories
 
         public void Add(Vehicle vehicle)
         {
-            throw new NotImplementedException();
+            dbContext.Add(vehicle);
         }
         #endregion
 
         #region Methods
         public async Task<Vehicle> GetVehicle(int id,bool includeRelated=true)
         {
-            if (includeRelated!=false)
+            if (!includeRelated)
              return  await dbContext.Vehicles.FindAsync(id);
 
             return await dbContext.Vehicles

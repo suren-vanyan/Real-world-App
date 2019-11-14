@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using VegaStarter.Controllers.Resources;
 using VegaStarter.Models;
 using VegaStarter.Persistence;
 
@@ -36,7 +35,9 @@ namespace VegaStarter.Controllers
         public async Task<IEnumerable<MakeResource>> GetMakes()
         {
             var makes = await context.Makes.Include(m => m.Models).ToListAsync().ConfigureAwait(false);
-            return mapper.Map<List<Make>, List<MakeResource>>(makes);
+            var makeResoureces = mapper.Map<List<Make>, List<MakeResource>>(makes);
+
+            return makeResoureces;
         }
         #endregion
 

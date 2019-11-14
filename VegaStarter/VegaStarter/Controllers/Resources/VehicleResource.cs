@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace VegaStarter.Models.Resources
+namespace VegaStarter.Controllers.Resources
 {
     public class VehicleResource
     {

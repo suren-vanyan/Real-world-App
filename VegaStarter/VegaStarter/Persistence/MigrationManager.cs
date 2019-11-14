@@ -9,7 +9,7 @@ namespace VegaStarter.Persistence
     {
         public static IApplicationBuilder MigratDatabase(this IApplicationBuilder applicationBuilder)
         {
-            using (var scope = applicationBuilder.ApplicationServices.CreateScope())
+            using (var scope = applicationBuilder?.ApplicationServices.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<VegaDbContext>();
                 try

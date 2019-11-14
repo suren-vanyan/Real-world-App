@@ -11,15 +11,17 @@ import { from } from 'rxjs';
 @Injectable()
 export class VehicleService {
 
-  makesUrl = 'api/makes/all-makes';
+  makesUrl = 'http://localhost:5000/api/makes/all-makes';
   constructor(private httpClient: HttpClient) { }
 
   getMakes() {
-    return this.httpClient.get(this.makesUrl) ;
+    var makes= this.httpClient.get(this.makesUrl) ;
+    console.log(makes)
+    return makes
   }
 
   getFeatures() {
-    return this.httpClient.get('api/features/all-features');
+    return this.httpClient.get('http://localhost:5000/api/features/all-features');
    }
 
 

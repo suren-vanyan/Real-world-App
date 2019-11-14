@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VegaStarter.Models;
 
-namespace VegaStarter.Persistence.Interfaces
+namespace VegaStarter.Core.Interfaces
 {
     public interface IVehicleRepository
     {
