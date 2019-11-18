@@ -52,12 +52,8 @@ namespace VegaStarter
             services.AddDbContext<VegaDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-
-
             services.AddMvc(option => option.EnableEndpointRouting = false);
-
-            services.AddCors();
-
+          
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";

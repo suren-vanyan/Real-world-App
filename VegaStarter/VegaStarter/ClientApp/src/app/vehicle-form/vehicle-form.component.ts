@@ -18,7 +18,7 @@ export class VehicleFormComponent implements OnInit {
   ngOnInit() {
     this.vehicleService.getMakes().subscribe(makes =>
       this.makes = makes);
-
+      
     this.vehicleService.getFeatures().subscribe(features =>{
       this.features = features
     },error=>{
@@ -28,8 +28,8 @@ export class VehicleFormComponent implements OnInit {
   }
 
   onMakeChange() {
-    console.log('123456');
-    const selectedMake = this.makes.find(m => m.id == this.vehicle.make);
+    const selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
     this.models = selectedMake ? selectedMake.models : [];
+    delete this.vehicle.modelId
   }
 }
