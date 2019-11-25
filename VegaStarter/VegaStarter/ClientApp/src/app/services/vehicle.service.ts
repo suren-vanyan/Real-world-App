@@ -1,8 +1,9 @@
 import { Http } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { from } from 'rxjs';
-
+import { from, Observable } from 'rxjs';
+import {map} from 'rxjs/operators'
+import { environment } from '../../environments/environment.prod';
 
 
 // @Injectable({
@@ -11,20 +12,22 @@ import { from } from 'rxjs';
 @Injectable()
 export class VehicleService {
 
-  makesUrl = 'http://localhost:5000/api/makes/all-makes';
   constructor(private httpClient: HttpClient) { }
 
   getMakes() {
-    var makes= this.httpClient.get(this.makesUrl);
+    var makes = this.httpClient.get(`${environment.remoteServiceBaseUrl}/api/makes/all-makes`);
     console.log(makes);
     return makes;
   }
 
   getFeatures() {
-   var features=this.httpClient.get('http://localhost:5000/api/features/all-features');
-   console.log(features);
-   return features;
-   }
+    var features = this.httpClient.get(`${environment.remoteServiceBaseUrl}/api/features/all-features`);
+    console.log(features);
+    return features;
+  }
 
-
+  create(vehicle) {
+    console.log(vehicle);
+   return this.httpClient.post(`${environment.remoteServiceBaseUrl}/api/vehicles/create`, vehicle).pipe(map((res:Response)=>res.json()))
+  }
 }
