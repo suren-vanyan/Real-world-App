@@ -1,50 +1,47 @@
-
-import { Component, OnInit } from '@angular/core';
-import { VehicleService } from '../services/vehicle.service';
-
+import { Component, OnInit } from "@angular/core";
+import { VehicleService } from "../services/vehicle.service";
 
 @Component({
-  selector: 'app-vehicle-form',
-  templateUrl: './vehicle-form.component.html',
-  styleUrls: ['./vehicle-form.component.css']
+  selector: "app-vehicle-form",
+  templateUrl: "./vehicle-form.component.html",
+  styleUrls: ["./vehicle-form.component.css"]
 })
 export class VehicleFormComponent implements OnInit {
   makes: any;
+  makeId:0;
   models: any;
   features: any;
   vehicle: any = {
-    id: 0,
     modelId: 0,
-    isRegitered: true,
+    isRegitered: false,
     contact: {
-      name: "string",
-      email: "string",
-      phone: "string"
+      name: "Jeferson",
+      email: "example@mail.ru",
+      phone: "0985468995"
     },
     features: []
   };
 
-  constructor(private vehicleService: VehicleService) { }
+  constructor(private vehicleService: VehicleService) {}
 
   ngOnInit() {
-    this.vehicleService.getMakes().subscribe(makes =>
-      this.makes = makes);
+    this.vehicleService.getMakes().subscribe(makes => (this.makes = makes));
 
-    this.vehicleService.getFeatures().subscribe(features =>
-      this.features = features);
+    this.vehicleService
+      .getFeatures()
+      .subscribe(features => (this.features = features));
   }
 
   onMakeChange() {
-    const selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
+    const selectedMake = this.makes.find(m => m.id == this.makeId);
     this.models = selectedMake ? selectedMake.models : [];
-    delete this.vehicle.modelId
+    delete this.vehicle.modelId;
   }
 
   onFeaturesToggle(featureId, $event) {
     if ($event.target.checked) {
       this.vehicle.features.push(featureId);
-    }
-    else {
+    } else {
       var index = this.vehicle.features.indexOf(featureId);
       this.vehicle.features.splice(index, 1);
     }
@@ -52,7 +49,6 @@ export class VehicleFormComponent implements OnInit {
 
   onSubmit() {
     console.log(this.vehicle);
-    delete this.vehicle.makeId;
-    this.vehicleService.create(this.vehicle).subscribe(x => console.log(x))
+    this.vehicleService.create(this.vehicle).subscribe(x => console.log(x));
   }
 }

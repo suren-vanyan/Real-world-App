@@ -27,7 +27,11 @@ export class VehicleService {
   }
 
   create(vehicle) {
-    console.log(vehicle);
-   return this.httpClient.post(`${environment.remoteServiceBaseUrl}/api/vehicles/create`, vehicle).pipe(map((res:Response)=>res.json()))
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type':  'application/json',
+    //   })};
+
+     return this.httpClient.post(`${environment.remoteServiceBaseUrl}/api/vehicles/create`, vehicle).pipe(map((res:Response)=>res.json()))
   }
 }
