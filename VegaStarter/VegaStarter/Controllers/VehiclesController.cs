@@ -10,7 +10,7 @@ using VegaStarter.Models;
 
 namespace VegaStarter.Controllers
 {
-    [Route("api/[controller]")]
+    
     public class VehiclesController :BaseController
     {
 
@@ -29,8 +29,6 @@ namespace VegaStarter.Controllers
             this.unitOfWork = unitOfWork;
         }
         #endregion
-
-
 
         #region Actions
         /// <summary>
@@ -63,7 +61,7 @@ namespace VegaStarter.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateVehicle([FromBody]SaveVehicleResource vehicleResource)
         {
-
+            throw new Exception();
             var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
             vehicle.LastUpdate = DateTime.Now;
 

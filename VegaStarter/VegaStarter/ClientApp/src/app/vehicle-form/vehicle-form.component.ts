@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { VehicleService } from "../services/vehicle.service";
+import { ToastyService, ToastyConfig, ToastOptions, ToastData } from "ng2-toasty";
 
 @Component({
   selector: "app-vehicle-form",
@@ -22,7 +23,12 @@ export class VehicleFormComponent implements OnInit {
     features: []
   };
 
-  constructor(private vehicleService: VehicleService) {}
+  constructor(private vehicleService: VehicleService,
+    private toastyService:ToastyService,
+    private toastyConfig:ToastyConfig,
+    ) {
+      this.toastyConfig.theme='bootstrap'
+    }
 
   ngOnInit() {
     this.vehicleService.getMakes().subscribe(makes => (this.makes = makes));
@@ -48,7 +54,27 @@ export class VehicleFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.vehicle);
-    this.vehicleService.create(this.vehicle).subscribe(x => console.log(x));
+    this.vehicleService.create(this.vehicle)
+    .subscribe(
+      x => console.log(x),
+      
+      error=>{
+       var toastOptions:ToastOptions={
+        title: "Error",
+        msg: "An unexpected Error happened.",
+        showClose: true,
+        timeout: 1000000, 
+        theme:'bootstrap',
+        onAdd: (toast:ToastData) => {
+          console.log('Toast ' + toast.id + ' has been added!');
+      },
+      onRemove: function(toast:ToastData) {
+          console.log('Toast ' + toast.id + ' has been removed!');
+      }  
+       };
+       this.toastyService.error(toastOptions);
+      }
+
+      );
   }
 }
