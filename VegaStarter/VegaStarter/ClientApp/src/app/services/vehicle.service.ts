@@ -1,5 +1,5 @@
 import { Http } from '@angular/http';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import {map} from 'rxjs/operators'
@@ -27,11 +27,6 @@ export class VehicleService {
   }
 
   create(vehicle) {
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'Content-Type':  'application/json',
-    //   })};
-
      return this.httpClient.post(`${environment.remoteServiceBaseUrl}/api/vehicles/create`, vehicle).pipe(map((res:Response)=>res.json()))
   }
 }

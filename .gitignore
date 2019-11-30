@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+VegaStarter/.vs/VegaStarter/v16/Server/sqlite3/storage.ide
+VegaStarter/.vs/VegaStarter/v16/Server/sqlite3/db.lock
