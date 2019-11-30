@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { VehicleService } from "../services/vehicle.service";
-import { ToastyService, ToastyConfig, ToastOptions, ToastData } from "ng2-toasty";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-vehicle-form",
@@ -9,7 +9,7 @@ import { ToastyService, ToastyConfig, ToastOptions, ToastData } from "ng2-toasty
 })
 export class VehicleFormComponent implements OnInit {
   makes: any;
-  makeId:0;
+  makeId: 0;
   models: any;
   features: any;
   vehicle: any = {
@@ -23,16 +23,30 @@ export class VehicleFormComponent implements OnInit {
     features: []
   };
 
-  constructor(private vehicleService: VehicleService,
-    private toastyService:ToastyService,
-    private toastyConfig:ToastyConfig,
-    ) {
-      this.toastyConfig.theme='bootstrap'
-    }
+  constructor(
+    private vehicleService: VehicleService,
+    private router: Router,
+    private activatedRouter: ActivatedRoute
+  ) {
+    this.activatedRouter.params.subscribe(p => {
+      this.vehicle.id = p["id"];
+    });
+  }
 
   ngOnInit() {
+    /* get vehicle by id */
+    this.vehicleService
+      .getVehicle(this.vehicle.id)
+      .subscribe(v => this.vehicle=v,err=>{
+        if(err.status==404){
+          this.router.navigate(['/home'])
+        }
+      });
+
+    /* get all makes */
     this.vehicleService.getMakes().subscribe(makes => (this.makes = makes));
 
+    /* get all features */
     this.vehicleService
       .getFeatures()
       .subscribe(features => (this.features = features));
@@ -54,27 +68,6 @@ export class VehicleFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.vehicleService.create(this.vehicle)
-    .subscribe(
-      x => console.log(x),
-      
-      error=>{
-       var toastOptions:ToastOptions={
-        title: "Error",
-        msg: "An unexpected Error happened.",
-        showClose: true,
-        timeout: 1000000, 
-        theme:'bootstrap',
-        onAdd: (toast:ToastData) => {
-          console.log('Toast ' + toast.id + ' has been added!');
-      },
-      onRemove: function(toast:ToastData) {
-          console.log('Toast ' + toast.id + ' has been removed!');
-      }  
-       };
-       this.toastyService.error(toastOptions);
-      }
-
-      );
+    this.vehicleService.create(this.vehicle).subscribe(x => console.log(x));
   }
 }

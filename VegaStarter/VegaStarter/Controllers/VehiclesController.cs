@@ -10,8 +10,8 @@ using VegaStarter.Models;
 
 namespace VegaStarter.Controllers
 {
-    
-    public class VehiclesController :BaseController
+
+    public class VehiclesController : BaseController
     {
 
         #region Fields
@@ -46,7 +46,7 @@ namespace VegaStarter.Controllers
             var vehicle = await vehicleRepository.GetVehicle(id).ConfigureAwait(false);
 
             if (vehicle == null)
-                return new NotFoundObjectResult(id);
+                return new NotFoundObjectResult(string.Concat("Vehicle with id:", id, " is not found"));
 
             var vehicleResource = mapper.Map<Vehicle, VehicleResource>(vehicle);
 
@@ -61,7 +61,7 @@ namespace VegaStarter.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateVehicle([FromBody]SaveVehicleResource vehicleResource)
         {
-            throw new Exception();
+            
             var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
             vehicle.LastUpdate = DateTime.Now;
 

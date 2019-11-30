@@ -20,12 +20,15 @@
     <div class="alert alert-danger" *ngIf="model.touched && !model.valid">Please specify the model.</div>
   </div>
   <p>Is this vehicle registered?</p>
-  <label for="registered" class="radio-inline">
-    <input type="radio" id="registered" value="true" [(ngModel)]="vehicle.isRegitered" name="registered">Yes
-  </label>
-  <label for="notRegistered" class="radio-inline">
-    <input type="radio" id="notRegistered" value="false" [(ngModel)]="vehicle.isRegitered" name="notRegistered">No
-  </label>
+  <mat-radio-group class="mat-radio-disabled">
+      <label for="registered" class="mat-radio-disabled">
+          <mat-radio-button  id="registered" value="true" [(ngModel)]="vehicle.isRegitered" name="registered" ngDefaultControl>Yes</mat-radio-button>
+        </label>
+        <label for="notRegistered" class="mat-radio-disabled" >
+          <mat-radio-button id="notRegistered" value="false" [(ngModel)]="vehicle.isRegitered" name="registered" ngDefaultControl >No</mat-radio-button>
+        </label>
+  </mat-radio-group>
+  
   <h2>Features</h2>
   <div *ngFor="let f of features" class="checkbox" (change)="onFeaturesToggle(f.id,$event)">
     <label for="feature{{f.id}}">

@@ -16,3 +16,19 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+.bg-white {
+  background-color: #312d2d!important;
+}
+
+.router-navbar {
+  background-color: rgba(85, 111, 228, 0.9); 
+}
+
+.navbar-light .navbar-brand {
+   color: rgba(85, 111, 228, 0.9); 
+}
+
+.navbar-expand-sm .navbar-nav .nav-link{
+  color: rgba(85, 111, 228, 0.9) !important; 
+}
