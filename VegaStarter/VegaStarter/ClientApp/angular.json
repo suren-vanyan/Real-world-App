@@ -145,5 +145,10 @@
       }
     }
   },
-  "defaultProject": "VegaStarter"
+  "defaultProject": "VegaStarter",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
