@@ -47,6 +47,7 @@ namespace VegaStarter
                 config.AddProfile(typeof(ModelProfile));
             }, typeof(VehicleProfile)).AddSingleton(typeof(IMapperConfigurationExpression), typeof(MapperConfiguration));
 
+
             services.AddControllers().AddNewtonsoftJson();
 
             services.AddDbContext<VegaDbContext>(options =>
@@ -89,7 +90,6 @@ namespace VegaStarter
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
             }
             else
             {
