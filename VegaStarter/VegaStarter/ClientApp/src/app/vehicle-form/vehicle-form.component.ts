@@ -49,7 +49,7 @@ export class VehicleFormComponent implements OnInit {
 
     Observable.forkJoin(sources).subscribe(
       data => {
-        // this.makes = data[0] as any;
+         this.makes = data[0] as any;
         this.features = data[1] as any;
         if (this.vehicle.id){
           this.setVehicle(data[2] as Vehicle);

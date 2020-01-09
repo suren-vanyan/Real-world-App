@@ -13,7 +13,7 @@ namespace VegaStarter.Controllers.Resources
         public KeyValuePairResource Model { get; set; }
 
         public KeyValuePairResource Make { get; set; }
-        public bool IsRegitered { get; set; }
+        public bool IsRegistered { get; set; }
        
         public ContactResource Contact { get; set; }
     
