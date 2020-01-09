@@ -43,6 +43,6 @@ export class VehicleService {
   create(vehicle) {
     return this.httpClient
       .post(`${environment.remoteServiceBaseUrl}/api/vehicles/create`, vehicle)
-      .pipe(map((res: Response) => res.json()));
+      .pipe(map((res: Response) => res))
   }
 }

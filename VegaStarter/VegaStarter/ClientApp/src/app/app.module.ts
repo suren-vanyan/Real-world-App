@@ -45,7 +45,7 @@ Sentry.init({
   ],
   providers: [
     VehicleService,
-    { provide: ErrorHandler, useClass: AppErrorHandler }
+     { provide: ErrorHandler, useClass: AppErrorHandler }
   ],
   bootstrap: [AppComponent]
 })

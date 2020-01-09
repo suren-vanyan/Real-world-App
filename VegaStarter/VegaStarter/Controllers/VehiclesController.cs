@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +52,25 @@ namespace VegaStarter.Controllers
             var vehicleResource = mapper.Map<Vehicle, VehicleResource>(vehicle);
 
             return Ok(vehicleResource);
+        }
+
+        /// <summary>
+        /// get vehicle by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("all-vehicles")]
+        public async Task<IActionResult> GetVehicles()
+        {
+           
+            var vehicle = await vehicleRepository.GetVehicles().ConfigureAwait(false);
+
+            if (vehicle == null)
+                return new NotFoundObjectResult("Vehicles is not found");
+
+            var vehicleResources = mapper.Map<List<Vehicle>,List<VehicleResource>>(vehicle);
+
+            return Ok(vehicleResources);
         }
 
         /// <summary>

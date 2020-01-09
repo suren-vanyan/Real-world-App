@@ -1,8 +1,10 @@
+import * as _ from 'underscore';
 import { Component, OnInit } from "@angular/core";
 import { VehicleService } from "../services/vehicle.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import "rxjs/add/observable/forkJoin";
 import { Observable } from "rxjs";
+import { SaveVehicle, Vehicle } from '../models/vehicle';
 @Component({
   selector: "app-vehicle-form",
   templateUrl: "./vehicle-form.component.html",
@@ -13,13 +15,16 @@ export class VehicleFormComponent implements OnInit {
   makeId: 0;
   models: any;
   features: any;
-  vehicle: any = {
+
+  vehicle: SaveVehicle = {
+    id: 0,
+    makeId: 0,
     modelId: 0,
-    isRegitered: false,
+    isRegistered: false,
     contact: {
-      name: "Jeferson",
-      email: "example@mail.ru",
-      phone: "0985468995"
+      name: '',
+      email: '',
+      phone: '',
     },
     features: []
   };
@@ -44,10 +49,12 @@ export class VehicleFormComponent implements OnInit {
 
     Observable.forkJoin(sources).subscribe(
       data => {
-        console.log(data);
-        this.makes = data[0] as any;
+        // this.makes = data[0] as any;
         this.features = data[1] as any;
-        if (this.vehicle.id) this.setVehicle(data[2]);
+        if (this.vehicle.id){
+          this.setVehicle(data[2] as Vehicle);
+          this.populateModels();
+        }
       },
       error => {
         if (error.status == 404) this.router.navigate["/home"];
@@ -55,16 +62,23 @@ export class VehicleFormComponent implements OnInit {
     );
   }
 
-  setVehicle(data) {
+  setVehicle(data: Vehicle) {
     this.vehicle.id = data.id;
     this.vehicle.makeId = data.make.id;
     this.vehicle.modelId = data.model.id;
+    this.vehicle.isRegistered = data.isRegistered;
+    this.vehicle.contact = data.contact;
+    this.vehicle.features = _.pluck(data.features, 'id')
   }
 
   onMakeChange() {
+    this.populateModels();
+    delete this.vehicle.modelId;
+  }
+
+  private populateModels() {
     const selectedMake = this.makes.find(m => m.id == this.makeId);
     this.models = selectedMake ? selectedMake.models : [];
-    delete this.vehicle.modelId;
   }
 
   onFeaturesToggle(featureId, $event) {
