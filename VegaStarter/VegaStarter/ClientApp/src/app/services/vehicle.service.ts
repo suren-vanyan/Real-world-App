@@ -1,11 +1,11 @@
 import { environment } from "./../../environments/environment";
 /* import { environment } from '../../environments/environment.prod'; */
-
 import { Http } from "@angular/http";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { from, Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { Vehicle } from '../models/vehicle';
 
 @Injectable({
   providedIn: "root"
@@ -43,6 +43,10 @@ export class VehicleService {
   create(vehicle) {
     return this.httpClient
       .post(`${environment.remoteServiceBaseUrl}/api/vehicles/create`, vehicle)
-      .pipe(map((res: Response) => res.json()));
+      .pipe(map((res: Response) => res))
+  }
+
+  update(vehicle){
+    return this.httpClient.put(`${environment.remoteServiceBaseUrl}/api/vehicles/${vehicle.id}`, vehicle).pipe(map((res: Response) => res))
   }
 }

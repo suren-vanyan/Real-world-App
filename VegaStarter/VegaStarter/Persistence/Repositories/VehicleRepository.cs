@@ -42,6 +42,16 @@ namespace VegaStarter.Persistence.Repositories
                .SingleOrDefaultAsync(v => v.Id == id).ConfigureAwait(false);
         }
 
+        public async Task<List<Vehicle>> GetVehicles()
+        {
+            return await dbContext.Vehicles
+               .Include(v => v.Model)
+               .ThenInclude(m => m.Make)
+               .Include(v => v.VehicleFeatures)
+               .ThenInclude(vf => vf.Feature)
+              .ToListAsync().ConfigureAwait(false);
+        }
+
         public void Remove(Vehicle vehicle)
         {
             dbContext.Remove<Vehicle>(vehicle);

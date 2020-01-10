@@ -17,7 +17,7 @@ namespace VegaStarter.Models
         public int ModelId { get; set; }
         public Model Model { get; set; }
 
-        public bool IsRegitered { get; set; }
+        public bool IsRegistered { get; set; }
         [Required]
         [StringLength(255, ErrorMessage = "ContactName can't be longer than 255 characters")]
         public string ContactName { get; set; }

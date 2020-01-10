@@ -13,16 +13,16 @@ namespace VegaStarter.Controllers.Resources
         public KeyValuePairResource Model { get; set; }
 
         public KeyValuePairResource Make { get; set; }
-        public bool IsRegitered { get; set; }
+        public bool IsRegistered { get; set; }
        
         public ContactResource Contact { get; set; }
     
         public DateTime LastUpdate { get; set; }
-        public ICollection<KeyValuePairResource> FeatureResources { get; }
+        public ICollection<KeyValuePairResource> Feature { get; }
 
         public VehicleResource()
         {
-            FeatureResources = new Collection<KeyValuePairResource>();
+            Feature = new Collection<KeyValuePairResource>();
         }
     }
 }

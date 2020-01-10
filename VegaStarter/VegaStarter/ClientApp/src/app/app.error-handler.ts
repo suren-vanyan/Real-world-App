@@ -20,7 +20,7 @@ export class AppErrorHandler implements ErrorHandler {
     /* const eventId = Sentry.captureException(error.originalError || error);
     if (isDevMode()) Sentry.showReportDialog({ eventId });
     else throw error; */
-    
+
     this.ngZone.run(() => {
       var toastOptions: ToastOptions = {
         title: "Error",
