@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  remoteServiceBaseUrl: "https://localhost:44300",
+  remoteServiceBaseUrl: "http://localhost:5000",
 };
 
 

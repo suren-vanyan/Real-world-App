@@ -1,3 +1,4 @@
+import { ToastService } from './services/toast.service';
 import { VehicleService } from "./services/vehicle.service";
 import { AppErrorHandler } from "./app.error-handler";
 import * as Sentry from "@sentry/browser";
@@ -45,6 +46,7 @@ Sentry.init({
   ],
   providers: [
     VehicleService,
+    ToastService,
      { provide: ErrorHandler, useClass: AppErrorHandler }
   ],
   bootstrap: [AppComponent]

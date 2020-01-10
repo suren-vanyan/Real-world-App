@@ -1,11 +1,18 @@
-import * as _ from 'underscore';
+import { ToastService } from './../services/toast.service';
+import * as _ from "underscore";
 import { Component, OnInit } from "@angular/core";
 import { VehicleService } from "../services/vehicle.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import "rxjs/add/observable/forkJoin";
 import { Observable } from "rxjs";
-import { SaveVehicle, Vehicle } from '../models/vehicle';
-import { toastyServiceFactory, ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import { SaveVehicle, Vehicle } from "../models/vehicle";
+import {
+  toastyServiceFactory,
+  ToastyService,
+  ToastyConfig,
+  ToastOptions,
+  ToastData
+} from "ng2-toasty";
 @Component({
   selector: "app-vehicle-form",
   templateUrl: "./vehicle-form.component.html",
@@ -23,11 +30,11 @@ export class VehicleFormComponent implements OnInit {
     modelId: 0,
     isRegistered: false,
     contact: {
-      name: '',
-      email: '',
-      phone: '',
+      name: "",
+      email: "",
+      phone: ""
     },
-    feature: []
+    features: []
   };
 
   constructor(
@@ -36,6 +43,7 @@ export class VehicleFormComponent implements OnInit {
     private activatedRouter: ActivatedRoute,
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig,
+    private toastService:ToastService
   ) {
     this.toastyConfig.theme = "bootstrap";
     this.activatedRouter.params.subscribe(p => {
@@ -50,7 +58,7 @@ export class VehicleFormComponent implements OnInit {
     ];
     if (this.vehicle.id)
       sources.push(this.vehicleService.getVehicle(this.vehicle.id));
-
+          
     Observable.forkJoin(sources).subscribe(
       data => {
         this.makes = data[0] as any;
@@ -61,7 +69,7 @@ export class VehicleFormComponent implements OnInit {
         }
       },
       error => {
-        if (error.status == 404) this.router.navigate["/home"];
+        if (error.status == 404) this.router.navigate(["/home"]);
       }
     );
   }
@@ -72,7 +80,7 @@ export class VehicleFormComponent implements OnInit {
     this.vehicle.modelId = data.model.id;
     this.vehicle.isRegistered = data.isRegistered;
     this.vehicle.contact = data.contact;
-    this.vehicle.feature = _.pluck(data.feature, 'id')
+    this.vehicle.features = _.pluck(data.features, "id");
   }
 
   onMakeChange() {
@@ -87,36 +95,31 @@ export class VehicleFormComponent implements OnInit {
 
   onFeaturesToggle(featureId, $event) {
     if ($event.target.checked) {
-      this.vehicle.feature.push(featureId);
+      this.vehicle.features.push(featureId);
     } else {
-      var index = this.vehicle.feature.indexOf(featureId);
-      this.vehicle.feature.splice(index, 1);
+      const index = this.vehicle.features.indexOf(featureId);
+      this.vehicle.features.splice(index, 1);
     }
   }
 
   onSubmit() {
     if (this.vehicle.id) {
       this.vehicleService.update(this.vehicle).subscribe(x => {
-        var toastOptions: ToastOptions = {
-          title: "Success",
-          msg: "The vehicle was sucessfully updated.",
-          showClose: true,
-          timeout: 5000,
-          theme: "bootstrap",
-          onAdd: (toast: ToastData) => {
-            console.log("Toast " + toast.id + " has been added!");
-          },
-          onRemove: function (toast: ToastData) {
-            console.log("Toast " + toast.id + " has been removed!");
-          }
-        };
-        this.toastyService.info(toastOptions);
-      }
-      );
-
+        this.toastService.addToast("success","The vehicle was sucessfully updated.",5000);
+      });
+    } else {
+      this.vehicleService.create(this.vehicle).subscribe(x =>{
+        console.log(x);
+        this.toastService.addToast("success","The vehicle was sucessfully created.",5000,true,'bootstrap');
+      });
     }
-    else {
-      this.vehicleService.create(this.vehicle).subscribe(x => console.log(x));
+  }
+
+  delete() {
+    if (confirm("Are you sure?")) {
+      this.vehicleService.delete(this.vehicle.id).subscribe(x => {
+        this.router.navigate(['/home'])
+      });
     }
   }
 }
