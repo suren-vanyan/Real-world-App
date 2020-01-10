@@ -4,7 +4,7 @@ export interface Vehicle {
     model: KeyValuePair;
     make: KeyValuePair;
     isRegistered: boolean;
-    features:KeyValuePair[];
+    feature:KeyValuePair[];
     contact:Contact;
     lasUpdate:Date;
 }
@@ -14,7 +14,7 @@ export interface SaveVehicle {
     modelId: number;
     makeId: number;
     isRegistered: boolean;
-    features:number[];
+    feature:number[];
     contact:Contact;
 }
 

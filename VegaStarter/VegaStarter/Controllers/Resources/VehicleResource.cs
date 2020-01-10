@@ -18,11 +18,11 @@ namespace VegaStarter.Controllers.Resources
         public ContactResource Contact { get; set; }
     
         public DateTime LastUpdate { get; set; }
-        public ICollection<KeyValuePairResource> FeatureResources { get; }
+        public ICollection<KeyValuePairResource> Feature { get; }
 
         public VehicleResource()
         {
-            FeatureResources = new Collection<KeyValuePairResource>();
+            Feature = new Collection<KeyValuePairResource>();
         }
     }
 }

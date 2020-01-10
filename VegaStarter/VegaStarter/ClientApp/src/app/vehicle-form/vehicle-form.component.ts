@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import "rxjs/add/observable/forkJoin";
 import { Observable } from "rxjs";
 import { SaveVehicle, Vehicle } from '../models/vehicle';
+import { toastyServiceFactory, ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 @Component({
   selector: "app-vehicle-form",
   templateUrl: "./vehicle-form.component.html",
@@ -26,14 +27,17 @@ export class VehicleFormComponent implements OnInit {
       email: '',
       phone: '',
     },
-    features: []
+    feature: []
   };
 
   constructor(
     private vehicleService: VehicleService,
     private router: Router,
-    private activatedRouter: ActivatedRoute
+    private activatedRouter: ActivatedRoute,
+    private toastyService: ToastyService,
+    private toastyConfig: ToastyConfig,
   ) {
+    this.toastyConfig.theme = "bootstrap";
     this.activatedRouter.params.subscribe(p => {
       this.vehicle.id = p["id"];
     });
@@ -49,9 +53,9 @@ export class VehicleFormComponent implements OnInit {
 
     Observable.forkJoin(sources).subscribe(
       data => {
-         this.makes = data[0] as any;
+        this.makes = data[0] as any;
         this.features = data[1] as any;
-        if (this.vehicle.id){
+        if (this.vehicle.id) {
           this.setVehicle(data[2] as Vehicle);
           this.populateModels();
         }
@@ -68,7 +72,7 @@ export class VehicleFormComponent implements OnInit {
     this.vehicle.modelId = data.model.id;
     this.vehicle.isRegistered = data.isRegistered;
     this.vehicle.contact = data.contact;
-    this.vehicle.features = _.pluck(data.features, 'id')
+    this.vehicle.feature = _.pluck(data.feature, 'id')
   }
 
   onMakeChange() {
@@ -83,14 +87,36 @@ export class VehicleFormComponent implements OnInit {
 
   onFeaturesToggle(featureId, $event) {
     if ($event.target.checked) {
-      this.vehicle.features.push(featureId);
+      this.vehicle.feature.push(featureId);
     } else {
-      var index = this.vehicle.features.indexOf(featureId);
-      this.vehicle.features.splice(index, 1);
+      var index = this.vehicle.feature.indexOf(featureId);
+      this.vehicle.feature.splice(index, 1);
     }
   }
 
   onSubmit() {
-    this.vehicleService.create(this.vehicle).subscribe(x => console.log(x));
+    if (this.vehicle.id) {
+      this.vehicleService.update(this.vehicle).subscribe(x => {
+        var toastOptions: ToastOptions = {
+          title: "Success",
+          msg: "The vehicle was sucessfully updated.",
+          showClose: true,
+          timeout: 5000,
+          theme: "bootstrap",
+          onAdd: (toast: ToastData) => {
+            console.log("Toast " + toast.id + " has been added!");
+          },
+          onRemove: function (toast: ToastData) {
+            console.log("Toast " + toast.id + " has been removed!");
+          }
+        };
+        this.toastyService.info(toastOptions);
+      }
+      );
+
+    }
+    else {
+      this.vehicleService.create(this.vehicle).subscribe(x => console.log(x));
+    }
   }
 }

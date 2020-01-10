@@ -63,7 +63,7 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.5.1",
     "prettier": "^1.19.1",
-    "typescript": "^3.7.4"
+    "typescript": "^3.5.3"
   },
   "optionalDependencies": {
     "node-sass": "^4.9.3",
