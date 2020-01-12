@@ -32,7 +32,7 @@ export class VehicleService {
   }
 
   getVehicles(){
-    return this.httpClient.get( `${environment.remoteServiceBaseUrl}` + `/api/vehicles`);
+    return this.httpClient.get( `${environment.remoteServiceBaseUrl}` + `/api/vehicles`).pipe(map((res)=>res));
     
   }
   /* get all features */

@@ -19,7 +19,7 @@ import { HomeComponent } from './components/home/home.component';
 import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
 
 
-import { AppComponent } from "./app.component";
+import { AppComponent } from "./components/app/app.component";
 
 Sentry.init({
   dsn:'https://94b233b3f8014f0fb2af8c61227dd792@sentry.io/1840139'
@@ -41,11 +41,12 @@ Sentry.init({
     FormsModule,
     ToastyModule.forRoot(),
     RouterModule.forRoot([
-      { path: "", component: HomeComponent, pathMatch: "full" },
+      { path: '',redirectTo:'vehicles', pathMatch: "full" },
       { path: "home", component: HomeComponent},
       {path:'vehicles',component:VehicleListComponent},
       { path: "vehicles/new", component: VehicleFormComponent },
-      { path: "vehicles/:id", component: VehicleFormComponent }
+      { path: "vehicles/:id", component: VehicleFormComponent },
+      { path: '**', redirectTo: 'home' }
     ])
   ],
   providers: [
