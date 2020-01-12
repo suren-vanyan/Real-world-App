@@ -31,7 +31,7 @@ namespace VegaStarter.Controllers
         /// get all makes
         /// </summary>
         /// <returns>IEnumerable<MakeResource></returns>
-        [HttpGet("all-makes")]
+        [HttpGet]
         public async Task<IEnumerable<MakeResource>> GetMakes()
         {
             var makes = await context.Makes.Include(m => m.Models).ToListAsync().ConfigureAwait(false);

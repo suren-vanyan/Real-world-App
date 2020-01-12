@@ -1,3 +1,4 @@
+
 import { ToastService } from './services/toast.service';
 import { VehicleService } from "./services/vehicle.service";
 import { AppErrorHandler } from "./app.error-handler";
@@ -12,12 +13,13 @@ import { ToastyModule } from "ng2-toasty";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModuleComponent } from "./material/material.module";
 
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
+import { HomeComponent } from './components/home/home.component';
+import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
+
 
 import { AppComponent } from "./app.component";
-import { NavMenuComponent } from "./nav-menu/nav-menu.component";
-import { HomeComponent } from "./home/home.component";
-import { VehicleFormComponent } from "./vehicle-form/vehicle-form.component";
-
 
 Sentry.init({
   dsn:'https://94b233b3f8014f0fb2af8c61227dd792@sentry.io/1840139'
@@ -27,7 +29,8 @@ Sentry.init({
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    VehicleFormComponent
+    VehicleFormComponent,
+    VehicleListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -40,6 +43,7 @@ Sentry.init({
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
       { path: "home", component: HomeComponent},
+      {path:'vehicles',component:VehicleListComponent},
       { path: "vehicles/new", component: VehicleFormComponent },
       { path: "vehicles/:id", component: VehicleFormComponent }
     ])

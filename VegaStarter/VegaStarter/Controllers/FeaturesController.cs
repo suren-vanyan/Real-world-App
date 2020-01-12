@@ -29,7 +29,7 @@ namespace VegaStarter.Controllers
         /// get all features
         /// </summary>
         /// <returns>IEnumerable<FeatureResource></returns>
-        [HttpGet("all-features")]
+        [HttpGet]
         public async Task<IEnumerable<KeyValuePairResource>> GetFeatures()
         {
             var features = await context.Features.ToListAsync().ConfigureAwait(false);

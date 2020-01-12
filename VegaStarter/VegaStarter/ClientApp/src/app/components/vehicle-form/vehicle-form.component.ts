@@ -1,11 +1,11 @@
-import { ToastService } from './../services/toast.service';
+import { ToastService } from '../../services/toast.service';
 import * as _ from "underscore";
 import { Component, OnInit } from "@angular/core";
-import { VehicleService } from "../services/vehicle.service";
+import { VehicleService } from "../../services/vehicle.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import "rxjs/add/observable/forkJoin";
 import { Observable } from "rxjs";
-import { SaveVehicle, Vehicle } from "../models/vehicle";
+import { SaveVehicle, Vehicle } from "../../models/vehicle";
 import {
   toastyServiceFactory,
   ToastyService,

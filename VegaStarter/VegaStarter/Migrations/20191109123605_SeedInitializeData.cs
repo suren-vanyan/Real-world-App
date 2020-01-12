@@ -9,17 +9,17 @@ namespace VegaStarter.Migrations
             migrationBuilder.InsertData(
                 table: "Features",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Feature1" });
+                values: new object[] { 1, "SRS" });
 
             migrationBuilder.InsertData(
                 table: "Features",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 2, "Feature2" });
+                values: new object[] { 2, "ABS" });
 
             migrationBuilder.InsertData(
                 table: "Features",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 3, "Feature3" });
+                values: new object[] { 3, "ESP" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

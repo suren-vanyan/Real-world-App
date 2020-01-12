@@ -6,21 +6,21 @@ namespace VegaStarter.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("Insert Into Makes (Name) values ('Makes1')");
-            migrationBuilder.Sql("Insert Into Makes (Name) values ('Makes2')");
-            migrationBuilder.Sql("Insert Into Makes (Name) values ('Makes3')");
+            migrationBuilder.Sql("Insert Into Makes (Name) values ('BMW')");
+            migrationBuilder.Sql("Insert Into Makes (Name) values ('Audi')");
+            migrationBuilder.Sql("Insert Into Makes (Name) values ('Mercedes')");
 
-            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Make1-ModelA', (Select Id From Makes Where Name='Makes1'))");
-            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Make1-ModelB', (Select Id From Makes Where Name='Makes1'))");
-            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Make1-ModelC', (Select Id From Makes Where Name='Makes1'))");
+            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('BMW-X6', (Select Id From Makes Where Name='BMW'))");
+            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('BMW-M3', (Select Id From Makes Where Name='BMW'))");
+            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('BMW-M8', (Select Id From Makes Where Name='BMW'))");
 
-            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Make2-ModelA', (Select Id From Makes Where Name='Makes2'))");
-            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Make2-ModelB', (Select Id From Makes Where Name='Makes2'))");
-            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Make2-ModelC', (Select Id From Makes Where Name='Makes2'))");
+            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Audi-Q7', (Select Id From Makes Where Name='Audi'))");
+            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Audi-TT', (Select Id From Makes Where Name='Audi'))");
+            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Audi-A8', (Select Id From Makes Where Name='Audi'))");
 
-            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Make3-ModelA', (Select Id From Makes Where Name='Makes3'))");
-            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Make3-ModelB', (Select Id From Makes Where Name='Makes3'))");
-            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Make3-ModelC', (Select Id From Makes Where Name='Makes3'))");
+            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Mercedes-E211', (Select Id From Makes Where Name='Mercedes'))");
+            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Mercedes-G55', (Select Id From Makes Where Name='Mercedes'))");
+            migrationBuilder.Sql("Insert Into Models (Name, MakeId) Values ('Mercedes-S600', (Select Id From Makes Where Name='Mercedes'))");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -18,7 +18,7 @@ export class VehicleService {
   /* get all makes */
   getMakes() {
     var makes = this.httpClient.get(
-      `${environment.remoteServiceBaseUrl}/api/makes/all-makes`
+      `${environment.remoteServiceBaseUrl}/api/makes`
     );
     return makes;
   }
@@ -31,10 +31,14 @@ export class VehicleService {
     return vehicle;
   }
 
+  getVehicles(){
+    return this.httpClient.get( `${environment.remoteServiceBaseUrl}` + `/api/vehicles`);
+    
+  }
   /* get all features */
   getFeatures() {
     var features = this.httpClient.get(
-      `${environment.remoteServiceBaseUrl}/api/features/all-features`
+      `${environment.remoteServiceBaseUrl}/api/features`
     );
     return features;
   }

@@ -40,10 +40,6 @@ namespace VegaStarter.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVehicle(int id)
         {
-            SqlParameter sqlParameter = new SqlParameter("id", id);
-            //var vehicle=  dbContext.Vehicles.FromSqlRaw<Vehicle>(@"SELECT * FROM (SELECT * FROM [Vehicles] WHERE [Vehicles].id=@id and @id IS NOT NULL) as [v] " +
-            //      @"LEFT JOIN VehicleFeatures as [vf] ON [vf].VehicleId=[v].id ORDER BY [v].[Id], [vf].[FeatureId], [vf].[VehicleId]", sqlParameter);
-
             var vehicle = await vehicleRepository.GetVehicle(id).ConfigureAwait(false);
 
             if (vehicle == null)
@@ -59,17 +55,12 @@ namespace VegaStarter.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("all-vehicles")]
+        [HttpGet]
         public async Task<IActionResult> GetVehicles()
         {
-           
-            var vehicle = await vehicleRepository.GetVehicles().ConfigureAwait(false);
 
-            if (vehicle == null)
-                return new NotFoundObjectResult("Vehicles is not found");
-
-            var vehicleResources = mapper.Map<List<Vehicle>,List<VehicleResource>>(vehicle);
-
+            var vehicles = await vehicleRepository.GetVehicles().ConfigureAwait(false);
+            var vehicleResources = mapper.Map<List<Vehicle>, List<VehicleResource>>(vehicles);
             return Ok(vehicleResources);
         }
 
@@ -81,7 +72,7 @@ namespace VegaStarter.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateVehicle([FromBody]SaveVehicleResource vehicleResource)
         {
-            
+
             var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
             vehicle.LastUpdate = DateTime.Now;
 
