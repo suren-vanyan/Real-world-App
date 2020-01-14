@@ -51,7 +51,6 @@ Sentry.init({
   ],
   providers: [
     VehicleService,
-    ToastService,
      { provide: ErrorHandler, useClass: AppErrorHandler }
   ],
   bootstrap: [AppComponent]
