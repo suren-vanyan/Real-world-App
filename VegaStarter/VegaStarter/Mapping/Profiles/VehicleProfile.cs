@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using VegaStarter.Controllers.Resources;
+using VegaStarter.Core.Models;
 using VegaStarter.Models;
 
 namespace VegaStarter.Mapping.Profiles
@@ -48,6 +49,9 @@ namespace VegaStarter.Mapping.Profiles
 
 
             });
+
+
+            CreateMap<VehicleQueryResource, VehicleQuery>();
         }
     }
 }

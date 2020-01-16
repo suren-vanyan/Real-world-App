@@ -13,7 +13,8 @@ import { Vehicle } from "../models/vehicle";
 })
 @Injectable()
 export class VehicleService {
-  constructor(private httpClient: HttpClient) {}
+  private readonly vehiclesEndPoint = "/api/vehicles";
+  constructor(private httpClient: HttpClient) { }
 
   /* get all makes */
   getMakes() {
@@ -26,15 +27,27 @@ export class VehicleService {
   /* get vehicle */
   getVehicle(id: number) {
     var vehicle = this.httpClient.get(
-      `${environment.remoteServiceBaseUrl}` + `/api/vehicles/${id}`
+      `${environment.remoteServiceBaseUrl}` + `${this.vehiclesEndPoint}${id}`
     );
     return vehicle;
   }
 
-  getVehicles(){
-    return this.httpClient.get( `${environment.remoteServiceBaseUrl}` + `/api/vehicles`).pipe(map((res)=>res));
-    
+  getVehicles(filter) {
+    return this.httpClient.get(environment.remoteServiceBaseUrl+this.vehiclesEndPoint+'?'+ this.toQueryString(filter)).pipe(map((res) => res));
+
   }
+
+  toQueryString(obj) {
+    var parts = [];
+    for (var property in obj) {
+        var itemValue=obj[property];
+        if(itemValue!=null && itemValue!=undefined)
+        parts.push(encodeURIComponent(property)+'='+encodeURIComponent(itemValue))
+    }
+
+    return parts.join('&');
+  }
+
   /* get all features */
   getFeatures() {
     var features = this.httpClient.get(
@@ -47,14 +60,14 @@ export class VehicleService {
 
   create(vehicle: SaveVehicle) {
     return this.httpClient
-      .post(`${environment.remoteServiceBaseUrl}/api/vehicles/create`, vehicle)
+      .post(environment.remoteServiceBaseUrl + this.vehiclesEndPoint + '/' + 'create', vehicle)
       .pipe(map((res: Response) => res));
   }
 
   update(vehicle: SaveVehicle) {
     return this.httpClient
       .put(
-        `${environment.remoteServiceBaseUrl}/api/vehicles/${vehicle.id}`,
+        `${environment.remoteServiceBaseUrl + this.vehiclesEndPoint}/${vehicle.id}`,
         vehicle
       )
       .pipe(map((res: Response) => res));
@@ -62,7 +75,7 @@ export class VehicleService {
 
   delete(id) {
     return this.httpClient.delete(
-      `${environment.remoteServiceBaseUrl}/api/vehicles/${id}`
-    ).pipe(map((res:Response)=>res));
+      `${environment.remoteServiceBaseUrl + this.vehiclesEndPoint}/${id}`
+    ).pipe(map((res: Response) => res));
   }
 }

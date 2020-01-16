@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using VegaStarter.Controllers.Resources;
 using VegaStarter.Core.Interfaces;
+using VegaStarter.Core.Models;
 using VegaStarter.Models;
 
 
@@ -56,10 +57,12 @@ namespace VegaStarter.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetVehicles()
+        public async Task<IActionResult> GetVehicles([FromQuery]VehicleQueryResource filterResource)
         {
 
-            var vehicles = await vehicleRepository.GetVehicles().ConfigureAwait(false);
+         var filter=   mapper.Map<VehicleQueryResource, VehicleQuery>(filterResource);
+
+            var vehicles = await vehicleRepository.GetVehicles(filter).ConfigureAwait(false);
             var vehicleResources = mapper.Map<List<Vehicle>, List<VehicleResource>>(vehicles);
             return Ok(vehicleResources);
         }
