@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using VegaStarter.Core.Interfaces;
 using VegaStarter.Core.Models;
+using VegaStarter.Extensions;
 using VegaStarter.Models;
 
 
@@ -62,17 +63,13 @@ namespace VegaStarter.Persistence.Repositories
                 ["make"] = v => v.Model.Make.Name,
                 ["model"] = v => v.Model.Name,
                 ["contactName"] = v => v.ContactName,
-                ["id"] = v => v.Id
             };
 
-            query = ApplyQueryOrdering(query, vehicleQueryObj, columnsMap);
+            query = query.ApplyQueryOrdering(vehicleQueryObj, columnsMap);
             return await query.ToListAsync().ConfigureAwait(false);
         }
 
-        public IQueryable<Vehicle> ApplyQueryOrdering(IQueryable<Vehicle> query, VehicleQuery vehicleQueryObj, Dictionary<string, Expression<Func<Vehicle, object>>> columnsMap)
-        {
-            return query = vehicleQueryObj.IsSortAscending ? query.OrderBy(columnsMap[vehicleQueryObj.SortBy]) : query.OrderByDescending(columnsMap[vehicleQueryObj.SortBy]);
-        }
+        
 
         public void Remove(Vehicle vehicle)
         {
