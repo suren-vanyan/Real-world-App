@@ -13,6 +13,7 @@ import { ToastyModule } from "ng2-toasty";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModuleComponent } from "./material/material.module";
 
+
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
 import { HomeComponent } from './components/home/home.component';
