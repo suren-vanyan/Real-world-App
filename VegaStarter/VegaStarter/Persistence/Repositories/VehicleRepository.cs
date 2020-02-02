@@ -66,6 +66,7 @@ namespace VegaStarter.Persistence.Repositories
             };
 
             query = query.ApplyQueryOrdering(vehicleQueryObj, columnsMap);
+            query = query.ApplyQueryPaging(queryObject: vehicleQueryObj);
             return await query.ToListAsync().ConfigureAwait(false);
         }
 
