@@ -28,3 +28,13 @@ export interface Contact {
     phone: string;
     email: string;
 }
+
+
+// export interface QueryModel{
+//      makeId?:number
+//     modelId?:number
+//     sortBy?:boolean
+//     isSortAscending?:boolean
+//     page?:number
+//     pageSize:number
+// }

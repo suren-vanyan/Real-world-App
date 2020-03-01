@@ -19,6 +19,8 @@ import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.com
 import { HomeComponent } from './components/home/home.component';
 import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
 import { PaginationComponent } from './shared/pagination.component';
+import { PaginationModule } from "ngx-bootstrap/pagination";
+
 
 
 import { AppComponent } from "./components/app/app.component";
@@ -34,7 +36,7 @@ Sentry.init({
     HomeComponent,
     VehicleFormComponent,
     VehicleListComponent,
-    PaginationComponent
+    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -43,6 +45,7 @@ Sentry.init({
     BrowserModule,
     MaterialModuleComponent,
     FormsModule,
+    PaginationModule.forRoot(),
     ToastyModule.forRoot(),
     RouterModule.forRoot([
       { path: '',redirectTo:'vehicles', pathMatch: "full" },

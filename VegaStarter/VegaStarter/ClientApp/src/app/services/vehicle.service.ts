@@ -4,7 +4,7 @@ import { environment } from "./../../environments/environment";
 import { Http } from "@angular/http";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { from, Observable } from "rxjs";
+import { from, Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { Vehicle } from "../models/vehicle";
 
@@ -33,8 +33,9 @@ export class VehicleService {
   }
 
   getVehicles(filter) {
-    return this.httpClient.get(environment.remoteServiceBaseUrl+this.vehiclesEndPoint+'?'+ this.toQueryString(filter)).pipe(map((res) => res));
-
+    console.log('filter',filter);
+    var result= this.httpClient.get(environment.remoteServiceBaseUrl+this.vehiclesEndPoint+'?'+ this.toQueryString(filter));
+   return result
   }
 
   toQueryString(obj) {

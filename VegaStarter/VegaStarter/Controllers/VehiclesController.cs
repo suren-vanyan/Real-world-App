@@ -62,9 +62,9 @@ namespace VegaStarter.Controllers
 
          var filter=   mapper.Map<VehicleQueryResource, VehicleQuery>(filterResource);
 
-            var vehicles = await vehicleRepository.GetVehicles(filter).ConfigureAwait(false);
-            var vehicleResources = mapper.Map<List<Vehicle>, List<VehicleResource>>(vehicles);
-            return Ok(vehicleResources);
+            var queryResult = await vehicleRepository.GetVehicles(filter).ConfigureAwait(false);
+            var queryResultResources = mapper.Map<QueryResult<Vehicle>, QueryResultResource<VehicleResource>>(queryResult);
+            return Ok(queryResultResources);
         }
 
         /// <summary>

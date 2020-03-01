@@ -10,7 +10,7 @@ namespace VegaStarter.Core.Interfaces
     public interface IVehicleRepository
     {
         Task<Vehicle> GetVehicle(int id, bool includeRelated = true);
-        Task<List<Vehicle>> GetVehicles(VehicleQuery filter);
+        Task<QueryResult<Vehicle>> GetVehicles(VehicleQuery filter);
         void Add(Vehicle vehicle);
         void Remove(Vehicle vehicle);
     }

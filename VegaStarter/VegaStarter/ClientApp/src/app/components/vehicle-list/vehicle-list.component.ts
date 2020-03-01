@@ -1,6 +1,6 @@
+import { Vehicle } from './../../models/vehicle';
 import { VehicleService } from "./../../services/vehicle.service";
 import { Component, OnInit } from "@angular/core";
-import { Vehicle } from "src/app/models/vehicle";
 import { Observable } from 'rxjs';
 import { KeyValuePair } from '../../models/vehicle';
 
@@ -10,10 +10,14 @@ import { KeyValuePair } from '../../models/vehicle';
   styleUrls: ["./vehicle-list.component.scss"]
 })
 export class VehicleListComponent implements OnInit {
+  private readonly PAGE_SIZE=3;
+  currentPage: number;
+  
   vehicles: Vehicle[];
   makes: KeyValuePair[];
+  totalItems:any;
   query: any = {
-    pageSize:3
+    pageSize:this.PAGE_SIZE
   };
   columns=[
     {title:"Id"},
@@ -24,6 +28,7 @@ export class VehicleListComponent implements OnInit {
   constructor(private vehicleService: VehicleService) { }
 
   ngOnInit() {
+    this.currentPage = 1;
     this.vehicleService.getMakes().subscribe(makes => {
       this.makes = makes as KeyValuePair[];
     })
@@ -31,17 +36,22 @@ export class VehicleListComponent implements OnInit {
   }
 
   populateVehicles() {
-    this.vehicleService.getVehicles(this.query).subscribe(vehicles => {
-      this.vehicles = vehicles as Vehicle[];
+    this.vehicleService.getVehicles(this.query).toPromise().then(result => {
+      this.vehicles = result.items;
+      this.totalItems=result.totalItems;
     })
+    console.log('vehicles',this.vehicles);
   }
   onFilterChange() {
-    this.query.modelId = 2;
+    //this.query.modelId = 2;
     this.populateVehicles();
   }
 
   resetFilter() {
-    this.query = {};
+    this.query = {
+      page:1,
+      pageSize:this.PAGE_SIZE
+    };
     this.onFilterChange();
   }
 
@@ -57,8 +67,10 @@ export class VehicleListComponent implements OnInit {
     this.populateVehicles();
   }
 
-  onPageChange(page){
-    this.query.page=page;
+  getPageData(event){
+    this.query.page=event.page;
+    this.query.pageSize=event.itemsPerPage;
     this.populateVehicles();
   }
+
 }

@@ -45,8 +45,10 @@ namespace VegaStarter.Persistence.Repositories
                .SingleOrDefaultAsync(v => v.Id == id).ConfigureAwait(false);
         }
 
-        public async Task<List<Vehicle>> GetVehicles(VehicleQuery vehicleQueryObj)
+        public async Task<QueryResult<Vehicle>> GetVehicles(VehicleQuery vehicleQueryObj)
         {
+            var queryResult = new QueryResult<Vehicle>();
+
             var query = dbContext.Vehicles
                  .Include(v => v.Model)
                  .ThenInclude(m => m.Make)
@@ -66,8 +68,13 @@ namespace VegaStarter.Persistence.Repositories
             };
 
             query = query.ApplyQueryOrdering(vehicleQueryObj, columnsMap);
+
+            queryResult.TotalItems = await query.CountAsync().ConfigureAwait(false);
+
             query = query.ApplyQueryPaging(queryObject: vehicleQueryObj);
-            return await query.ToListAsync().ConfigureAwait(false);
+
+            queryResult.Items =await query.ToListAsync();
+            return queryResult;
         }
 
         
