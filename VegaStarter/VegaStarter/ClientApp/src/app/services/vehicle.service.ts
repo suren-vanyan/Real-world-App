@@ -27,7 +27,7 @@ export class VehicleService {
   /* get vehicle */
   getVehicle(id: number) {
     var vehicle = this.httpClient.get(
-      `${environment.remoteServiceBaseUrl}` + `${this.vehiclesEndPoint}${id}`
+      `${environment.remoteServiceBaseUrl}` + this.vehiclesEndPoint +'/'+ id
     );
     return vehicle;
   }

@@ -53,6 +53,8 @@ namespace VegaStarter.Mapping.Profiles
 
             CreateMap<VehicleQueryResource, VehicleQuery>();
             CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
+
+            CreateMap<Photo, PhotoResource>();
         }
     }
 }

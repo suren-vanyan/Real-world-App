@@ -5,10 +5,10 @@
 <form #form="ngForm" (ngSubmit)="onSubmit()" novalidate>
   <div class="form-group">
     <label for="make">Make</label>
-    <select id="make" class="form-control" (change)="onMakeChange()" [(ngModel)]="makeId" name="makeId" required
+    <select id="make"  class="form-control" (change)="onMakeChange()" [(ngModel)]="vehicle.makeId" name="makeId" required
       #make="ngModel">
       <option value=""></option>
-      <option *ngFor="let m of makes" value="{{m.id}}">{{m.name}}</option>
+      <option *ngFor="let make of makes" [value]="make.id">{{make.name}}</option>
     </select>
     <div class="alert alert-danger" *ngIf="!make.valid && make.touched">Please specify the make.</div>
   </div>
@@ -16,7 +16,7 @@
     <label for="model">Model</label>
     <select id="model" class="form-control" [(ngModel)]="vehicle.modelId" name="modelId" #model="ngModel" required>
       <option value=""></option>
-      <option *ngFor="let m of models" value="{{ m.id }}">{{ m.name}}</option>
+      <option *ngFor="let model of models" [value]="model.id">{{ model.name}}</option>
     </select>
     <div class="alert alert-danger" *ngIf="model.touched && !model.valid">Please specify the model.</div>
   </div>

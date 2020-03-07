@@ -1,4 +1,5 @@
-import { ToastService } from '../../services/toast.service';
+import { KeyValuePair } from "./../../models/vehicle";
+import { ToastService } from "../../services/toast.service";
 import * as _ from "underscore";
 import { Component, OnInit } from "@angular/core";
 import { VehicleService } from "../../services/vehicle.service";
@@ -19,10 +20,9 @@ import {
   styleUrls: ["./vehicle-form.component.css"]
 })
 export class VehicleFormComponent implements OnInit {
-  makes: any;
-  makeId: 0;
-  models: any;
-  features: any;
+  makes: any[];
+  models: any[];
+  features: any[];
 
   vehicle: SaveVehicle = {
     id: 0,
@@ -43,33 +43,35 @@ export class VehicleFormComponent implements OnInit {
     private activatedRouter: ActivatedRoute,
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig,
-    private toastService:ToastService
+    private toastService: ToastService
   ) {
     this.toastyConfig.theme = "bootstrap";
     this.activatedRouter.params.subscribe(p => {
-      this.vehicle.id = p["id"];
+      this.vehicle.id = p["id"] || 0;
     });
   }
 
   ngOnInit() {
-    var sources = [
+    const sources = [
       this.vehicleService.getMakes(),
       this.vehicleService.getFeatures()
     ];
-    if (this.vehicle.id)
+    if (this.vehicle.id) {
       sources.push(this.vehicleService.getVehicle(this.vehicle.id));
-          
+    }
     Observable.forkJoin(sources).subscribe(
       data => {
-        this.makes = data[0] as any;
-        this.features = data[1] as any;
+        this.makes = data[0] as any[];
+        this.features = data[1] as any[];
         if (this.vehicle.id) {
           this.setVehicle(data[2] as Vehicle);
           this.populateModels();
         }
       },
       error => {
-        if (error.status == 404) this.router.navigate(["/home"]);
+        if (error.status === 404) {
+          this.router.navigate(["/home"]);
+        }
       }
     );
   }
@@ -89,7 +91,13 @@ export class VehicleFormComponent implements OnInit {
   }
 
   private populateModels() {
-    const selectedMake = this.makes.find(m => m.id == this.makeId);
+    var selectedMake: any;
+    if (!Number.isInteger(this.vehicle.makeId)) {
+      this.vehicle.makeId = Number.parseInt(this.vehicle.makeId.toString());
+      selectedMake = this.makes.find(m => m.id === this.vehicle.makeId);
+    } else {
+      selectedMake = this.makes.find(m => m.id === this.vehicle.makeId);
+    }
     this.models = selectedMake ? selectedMake.models : [];
   }
 
@@ -103,22 +111,24 @@ export class VehicleFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.vehicle.id) {
-      this.vehicleService.update(this.vehicle).subscribe(x => {
-        this.toastService.addToast("success","The vehicle was sucessfully updated.",5000);
-      });
-    } else {
-      this.vehicleService.create(this.vehicle).subscribe(x =>{
-        console.log(x);
-        this.toastService.addToast("success","The vehicle was sucessfully created.",5000,true,'bootstrap');
-      });
-    }
+    var result$ = this.vehicle.id
+      ? this.vehicleService.update(this.vehicle)
+      : this.vehicleService.create(this.vehicle);
+    result$.subscribe(vehicle => {
+      this.toastService.addToast(
+        "success",
+        "The data was sucessfully saved.",
+        5000
+      );
+      this.router.navigate(["/vehicles/", vehicle.id]);
+    });
+   
   }
 
   delete() {
     if (confirm("Are you sure?")) {
       this.vehicleService.delete(this.vehicle.id).subscribe(x => {
-        this.router.navigate(['/home'])
+        this.router.navigate(["/home"]);
       });
     }
   }

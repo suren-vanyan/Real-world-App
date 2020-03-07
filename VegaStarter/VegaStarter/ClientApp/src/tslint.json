@@ -12,6 +12,9 @@
             "element",
             "app",
             "kebab-case"
-        ]
-    }
+        ],
+        "ordered-imports":{"severity": "error"}
+    },
+    "defaultSeverity": "warn",
+    
 }
