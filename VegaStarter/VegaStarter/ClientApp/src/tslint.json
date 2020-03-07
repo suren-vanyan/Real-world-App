@@ -15,6 +15,6 @@
         ],
         "ordered-imports":{"severity": "error"}
     },
-    "defaultSeverity": "warn",
+    "defaultSeverity": "warn"
     
 }

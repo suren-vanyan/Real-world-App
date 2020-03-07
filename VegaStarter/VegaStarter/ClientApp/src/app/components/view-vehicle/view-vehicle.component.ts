@@ -1,6 +1,7 @@
+import { PhotoService } from "./../../services/photo.service";
 import { ToastService } from "./../../services/toast.service";
 import { VehicleService } from "./../../services/vehicle.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { Vehicle } from "src/app/models/vehicle";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastyService } from "ng2-toasty";
@@ -13,6 +14,7 @@ import { error } from "protractor";
   styleUrls: ["./view-vehicle.component.scss"]
 })
 export class ViewVehicleComponent implements OnInit {
+  @ViewChild("fileInput", { static: false }) fileInput: ElementRef;
   vehicle: Vehicle;
   vehicleId: number;
 
@@ -20,7 +22,8 @@ export class ViewVehicleComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastyService: ToastService,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private photoService: PhotoService
   ) {
     this.route.params.subscribe(p => {
       this.vehicleId = +p["id"];
@@ -45,10 +48,19 @@ export class ViewVehicleComponent implements OnInit {
     );
   }
 
+  async uploadPhoto() {
+    var nativeEelement: HTMLInputElement = this.fileInput.nativeElement;
+    var response = await this.photoService.upload(
+      this.vehicle.id,
+      nativeEelement.files[0]
+    );
+    console.log(response);
+  }
+
   delete() {
-    if (confirm('Are you sure?')) {
+    if (confirm("Are you sure?")) {
       this.vehicleService.delete(this.vehicle.id).subscribe(x => {
-        this.router.navigate(['/vehicles'])
+        this.router.navigate(["/vehicles"]);
       });
     }
   }

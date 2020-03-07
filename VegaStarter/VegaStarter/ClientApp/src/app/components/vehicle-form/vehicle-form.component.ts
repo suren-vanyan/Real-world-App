@@ -120,6 +120,7 @@ export class VehicleFormComponent implements OnInit {
         "The data was sucessfully saved.",
         5000
       );
+      
       this.router.navigate(["/vehicles/", vehicle.id]);
     });
    

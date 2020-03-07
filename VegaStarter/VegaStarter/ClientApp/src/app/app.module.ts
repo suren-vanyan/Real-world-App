@@ -26,6 +26,7 @@ import { PaginationModule } from "ngx-bootstrap/pagination";
 
 
 import { AppComponent } from "./components/app/app.component";
+import { PhotoService } from './services/photo.service';
 
 
 
@@ -63,6 +64,7 @@ Sentry.init({
   ],
   providers: [
     VehicleService,
+    PhotoService,
      { provide: ErrorHandler, useClass: AppErrorHandler }
   ],
   bootstrap: [AppComponent]
