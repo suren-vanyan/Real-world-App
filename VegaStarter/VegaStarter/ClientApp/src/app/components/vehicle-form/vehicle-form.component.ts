@@ -114,7 +114,7 @@ export class VehicleFormComponent implements OnInit {
     var result$ = this.vehicle.id
       ? this.vehicleService.update(this.vehicle)
       : this.vehicleService.create(this.vehicle);
-    result$.subscribe(vehicle => {
+    result$.subscribe((vehicle:Vehicle) => {
       this.toastService.addToast(
         "success",
         "The data was sucessfully saved.",

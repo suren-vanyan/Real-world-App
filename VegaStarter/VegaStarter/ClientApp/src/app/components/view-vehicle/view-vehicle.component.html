@@ -4,7 +4,7 @@
       <a class="nav-link active" data-toggle="tab" href="#basic">Home</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#photos">Photos</a>
+      <a class="nav-link" data-toggle="tab" href="#photo">Photos</a>
     </li>
   </ul>
 
@@ -33,9 +33,17 @@
       <button *ngIf="vehicle.id" [routerLink]="['/vehicles']" class="btn btn-secondary">View All Vehicles</button>
     </div>
     
-    <div role="tabpanel" class="tab-pane" id=photos>
+    <div role="tabpanel" class="tab-pane" id=photo>
       <h2>Photos</h2>
       <input #fileInput type="file" (change)="uploadPhoto()">
+      <br>
+   
+      <div class="progress" *ngIf="progress>0 &&progress < 100">
+        <div class="progress-bar" [style.width]="progress + '%'">
+          <span class="sr-only">{{progress}}% Complete</span>
+        </div>
+      </div>
+      <img *ngFor="let p of photos" src="{{baseUrl}}/uploads/{{p.fileName}}" class="img-thumbnail">
     </div>
 
   </div>

@@ -27,6 +27,8 @@ import { PaginationModule } from "ngx-bootstrap/pagination";
 
 import { AppComponent } from "./components/app/app.component";
 import { PhotoService } from './services/photo.service';
+import { ProgressService, BrowserXhrWithProgress } from './services/progress.service';
+import { BrowserXhr } from '@angular/http';
 
 
 
@@ -65,7 +67,9 @@ Sentry.init({
   providers: [
     VehicleService,
     PhotoService,
-     { provide: ErrorHandler, useClass: AppErrorHandler }
+    ProgressService,
+     { provide: ErrorHandler, useClass: AppErrorHandler },
+     {provide:BrowserXhr,useClass:BrowserXhrWithProgress}
   ],
   bootstrap: [AppComponent]
 })

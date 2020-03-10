@@ -31,7 +31,7 @@ namespace VegaStarter.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<int?>("VehicleId")
+                    b.Property<int>("VehicleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -169,7 +169,9 @@ namespace VegaStarter.Migrations
                 {
                     b.HasOne("VegaStarter.Models.Vehicle", null)
                         .WithMany("Photos")
-                        .HasForeignKey("VehicleId");
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("VegaStarter.Models.Model", b =>

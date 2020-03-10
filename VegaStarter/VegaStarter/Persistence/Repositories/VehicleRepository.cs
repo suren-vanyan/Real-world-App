@@ -24,14 +24,16 @@ namespace VegaStarter.Persistence.Repositories
         {
             this.dbContext = dbContext;
         }
+        #endregion
 
+
+        #region Methods
         public void Add(Vehicle vehicle)
         {
             dbContext.Add(vehicle);
         }
-        #endregion
+     
 
-        #region Methods
         public async Task<Vehicle> GetVehicle(int id, bool includeRelated = true)
         {
             if (!includeRelated)

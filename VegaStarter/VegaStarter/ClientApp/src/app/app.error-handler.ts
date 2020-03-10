@@ -6,6 +6,7 @@ import {
   ToastyService,
   ToastyConfig
 } from "ng2-toasty";
+import { HttpErrorResponse } from "@angular/common/http";
 
 export class AppErrorHandler implements ErrorHandler {
   constructor(
@@ -16,7 +17,8 @@ export class AppErrorHandler implements ErrorHandler {
     this.toastyConfig.theme = "material";
   }
 
-  handleError(error: any): void {
+  handleError(error): void {
+  console.log("Error",error);
     /* const eventId = Sentry.captureException(error.originalError || error);
     if (isDevMode()) Sentry.showReportDialog({ eventId });
     else throw error; */

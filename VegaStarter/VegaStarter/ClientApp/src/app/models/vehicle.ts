@@ -29,12 +29,3 @@ export interface Contact {
     email: string;
 }
 
-
-// export interface QueryModel{
-//      makeId?:number
-//     modelId?:number
-//     sortBy?:boolean
-//     isSortAscending?:boolean
-//     page?:number
-//     pageSize:number
-// }
