@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using VegaStarter.Controllers.Resources;
@@ -73,6 +74,7 @@ namespace VegaStarter.Controllers
         /// <param name="vehicleResource"></param>
         /// <returns>VehicleResource</returns>
         [HttpPost("create")]
+        [Authorize]
         public async Task<IActionResult> CreateVehicle([FromBody]SaveVehicleResource vehicleResource)
         {
 
@@ -95,6 +97,7 @@ namespace VegaStarter.Controllers
         /// <param name="vehicleResource"></param>
         /// <returns>VehicleResource</returns>
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody]SaveVehicleResource vehicleInputModel)
         {
             //Find Vehicle
@@ -117,6 +120,7 @@ namespace VegaStarter.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
             var vehicle = await vehicleRepository.GetVehicle(id, false).ConfigureAwait(false);

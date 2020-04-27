@@ -7,9 +7,9 @@ namespace VegaStarter.Core.Models
 {
     public interface IQueryObject
     {
-        public string SortBy { get; set; }
-        public bool IsSortAscending { get; set; }
-        public int Page { get; set; }
-        public byte PageSize { get; set; }
+         string SortBy { get; set; }
+         bool IsSortAscending { get; set; }
+         int Page { get; set; }
+         byte PageSize { get; set; }
     }
 }

@@ -8,6 +8,6 @@ namespace VegaStarter.Core.Interfaces
 {
     public interface IPhotoRepository
     {
-        public Task<IEnumerable<Photo>> GetPhotos(int vehicleId);
+         Task<IEnumerable<Photo>> GetPhotos(int vehicleId);
     }
 }

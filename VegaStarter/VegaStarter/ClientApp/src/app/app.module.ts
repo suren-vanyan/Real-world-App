@@ -1,5 +1,5 @@
-
-import { ToastService } from './services/toast.service';
+import { AuthService } from './services/auth.service';
+import { Auth } from './services/authlock.service';
 import { VehicleService } from "./services/vehicle.service";
 import { AppErrorHandler } from "./app.error-handler";
 import * as Sentry from "@sentry/browser";
@@ -20,10 +20,7 @@ import { HomeComponent } from './components/home/home.component';
 import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
 import { ViewVehicleComponent } from './components/view-vehicle/view-vehicle.component';
 
-import { PaginationComponent } from './shared/pagination.component';
 import { PaginationModule } from "ngx-bootstrap/pagination";
-
-
 
 import { AppComponent } from "./components/app/app.component";
 import { PhotoService } from './services/photo.service';
@@ -65,6 +62,8 @@ Sentry.init({
     ])
   ],
   providers: [
+    AuthService,
+    Auth,
     VehicleService,
     PhotoService,
     ProgressService,

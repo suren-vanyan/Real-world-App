@@ -11,6 +11,7 @@ using VegaStarter.Mapping.Profiles;
 using VegaStarter.Persistence.Repositories;
 using VegaStarter.Core.Interfaces;
 using VegaStarter.Core.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace VegaStarter
 {
@@ -56,8 +57,20 @@ namespace VegaStarter
             services.AddDbContext<VegaDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+
             services.AddMvc(option => option.EnableEndpointRouting = false);
-          
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://vega-project1991.eu.auth0.com/";
+                options.Audience = "https://api.vega.com";
+            });
+           
+
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
@@ -108,6 +121,7 @@ namespace VegaStarter
             app.UseOpenApi();
             app.UseSwaggerUi3();
 
+            app.UseAuthentication();
             
             app.UseMvc();
 
