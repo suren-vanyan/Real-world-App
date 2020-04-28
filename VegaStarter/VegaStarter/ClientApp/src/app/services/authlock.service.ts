@@ -8,7 +8,7 @@ import { tokenNotExpired } from 'angular2-jwt';
 import Auth0Lock from 'auth0-lock';
 
 @Injectable()
-export class Auth {
+export class AuthLockService {
   profile: any;
   private roles: string[] = []; 
 
@@ -58,7 +58,7 @@ export class Auth {
     // Check if there's an unexpired JWT
     // This searches for an item in localStorage with key == 'token'
     return tokenNotExpired('token');
-}
+  }
 
   public logout() {
     // Remove token from localStorage

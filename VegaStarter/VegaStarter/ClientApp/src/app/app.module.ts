@@ -1,5 +1,5 @@
 import { AuthService } from './services/auth.service';
-import { Auth } from './services/authlock.service';
+import { AuthLockService } from './services/authlock.service';
 import { VehicleService } from "./services/vehicle.service";
 import { AppErrorHandler } from "./app.error-handler";
 import * as Sentry from "@sentry/browser";
@@ -11,7 +11,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { ToastyModule } from "ng2-toasty";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MaterialModuleComponent } from "./material/material.module";
+
 
 
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
@@ -26,6 +26,7 @@ import { AppComponent } from "./components/app/app.component";
 import { PhotoService } from './services/photo.service';
 import { ProgressService, BrowserXhrWithProgress } from './services/progress.service';
 import { BrowserXhr } from '@angular/http';
+import { MaterialContainerModule } from './material.module';
 
 
 
@@ -47,7 +48,7 @@ Sentry.init({
     HttpClientModule,
     BrowserAnimationsModule,
     BrowserModule,
-    MaterialModuleComponent,
+    MaterialContainerModule,
     FormsModule,
     PaginationModule.forRoot(),
     ToastyModule.forRoot(),
@@ -63,7 +64,7 @@ Sentry.init({
   ],
   providers: [
     AuthService,
-    Auth,
+    AuthLockService,
     VehicleService,
     PhotoService,
     ProgressService,

@@ -21,4 +21,4 @@ import {MatToolbarModule} from '@angular/material/toolbar';
    MatToolbarModule
   ]
 })
-export class MaterialModuleComponent { }
+export class MaterialModule { }
