@@ -13,7 +13,7 @@ export class AuthService {
   auth0Client$ = (from(
     createAuth0Client({
       domain: "vega-project1991.eu.auth0.com",
-      client_id: "G6HBQXl2zjShtYAm0eNs6avnD1KaWusM",
+      client_id: "STLgvooK2EV5m9FRJfyoweetnjzRx25T",
       redirect_uri: `${window.location.origin}`
     })
   ) as Observable<Auth0Client>).pipe(
@@ -117,7 +117,7 @@ export class AuthService {
     this.auth0Client$.subscribe((client: Auth0Client) => {
       // Call method to log out
       client.logout({
-        client_id: "G6HBQXl2zjShtYAm0eNs6avnD1KaWusM",
+        client_id: "STLgvooK2EV5m9FRJfyoweetnjzRx25T",
         returnTo: `${window.location.origin}`
       });
     });
