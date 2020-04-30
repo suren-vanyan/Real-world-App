@@ -31,8 +31,10 @@ import { BrowserXhr } from "@angular/http";
 import { MaterialContainerModule } from "./material.module";
 import { ProfileComponent } from "./components/profile/profile.component";
 import { AppRoutingModule } from "./app-routing.module";
-import { hasLifecycleHook } from "@angular/compiler/src/lifecycle_reflector";
 
+
+
+export default hljs;
 export function getHighlightLanguage() {
   return [{ name: 'json', func: json }];
 }

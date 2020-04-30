@@ -5,6 +5,7 @@ import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.com
 import { ViewVehicleComponent } from './components/view-vehicle/view-vehicle.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
     { path: "", redirectTo: "vehicles", pathMatch: "full" },
@@ -14,7 +15,12 @@ const routes: Routes = [
     { path: "vehicles/edit/:id", component: VehicleFormComponent },
     { path: "vehicles/:id", component: ViewVehicleComponent },
     { path: "profile", component: ProfileComponent },
-    { path: "**", redirectTo: "home" }
+    { path: "**", redirectTo: "home" },
+    {
+      path: 'profile',
+      component: ProfileComponent,
+      canActivate: [AuthGuard]
+    }
 ];
 
 @NgModule({
